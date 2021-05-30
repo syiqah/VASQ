@@ -3,17 +3,17 @@
     {
       "path": "about.html",
       "title": "About this blog",
-      "description": "Some additional details about the blog",
+      "description": "This blog contains data visualisation makeovers, assignments and academic projects related to data analytics and visual analytics course requirements under SMU Master of IT for Business programme.",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-05-28T20:14:41+08:00"
+      "last_modified": "2021-05-30T20:41:58+08:00"
     },
     {
       "path": "index.html",
       "title": "Visual Analytics by Syiqah",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-05-28T20:14:42+08:00"
+      "last_modified": "2021-05-30T20:41:25+08:00"
     }
   ],
   "collections": ["posts/posts.json"]

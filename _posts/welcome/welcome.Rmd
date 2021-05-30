@@ -1,13 +1,12 @@
 ---
 title: "Welcome to 'Visual Analytics by Syiqah'"
 description: |
-  Welcome to our new blog, Visual Analytics by Syiqah. We hope you enjoy 
-  reading what we have to say!
+  Welcome to my blog! In this blog, I will share data visualisation makeovers, assignments and academic projects related to data analytics and visual analytics.
 author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
+  - name: Nurulasyiqah Md. Taha 
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+    affiliation: Master of IT in Business, School of Computing and Information Systems, Singapore Management University
+    affiliation_url: https://scis.smu.edu.sg/master-it-business/about-mitb-main
 date: 05-28-2021
 output:
   distill::distill_article:

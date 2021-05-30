@@ -1,19 +1,36 @@
 [
   {
-    "path": "posts/welcome/",
-    "title": "Welcome to 'Visual Analytics by Syiqah'",
-    "description": "Welcome to our new blog, Visual Analytics by Syiqah. We hope you enjoy \nreading what we have to say!",
+    "path": "posts/2021-05-30-dataviz-makeover-1/",
+    "title": "DataViz Makeover 1",
+    "description": "To makeover the data visualisation provided of Singapore's merchandise trade from 2019 to 2020.",
     "author": [
       {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
+        "name": "Nurulasyiqah Md. Taha",
+        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
+      }
+    ],
+    "date": "2021-05-30",
+    "categories": [],
+    "contents": "\r\n1 Critic\r\nWe will critic the following data visualisation based on clarity and aesthetic.\r\n\r\n1.1 Clarity\r\nTesting testing\r\n1.2 Aesthetic\r\nTesting testing\r\n2 Alternative data visualisation\r\nTesting testing\r\n2.1 Sketch\r\nA brief sketch of the proposed alternative data visualisation is as follows:\r\n\r\n2.2 Advantages\r\nTesting testing\r\n2.3 Proposed data visualisation (in Tableau)\r\nUsing Tableau 2021.1, the alternative data visualisation is available for viewing in Tableau Public. A snapshot of the dashboard is as follows:\r\n\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-05-30T21:18:07+08:00",
+    "input_file": "dataviz-makeover-1.knit.md"
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to 'Visual Analytics by Syiqah'",
+    "description": "Welcome to my blog! In this blog, I will share data visualisation makeovers, assignments and academic projects related to data analytics and visual analytics.",
+    "author": [
+      {
+        "name": "Nurulasyiqah Md. Taha",
+        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
       }
     ],
     "date": "2021-05-28",
     "categories": [],
     "contents": "\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-05-28T20:17:38+08:00",
-    "input_file": "welcome.knit.md"
+    "last_modified": "2021-05-30T20:41:25+08:00",
+    "input_file": {}
   }
 ]

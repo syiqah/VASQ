@@ -1,7 +1,7 @@
 ---
 title: "About this blog"
 description: |
-  Some additional details about the blog
+  This blog contains data visualisation makeovers, assignments and academic projects related to data analytics and visual analytics course requirements under SMU Master of IT for Business programme.
 ---
 
 ```{r setup, include=FALSE}
