@@ -34,7 +34,7 @@ A brief sketch of the proposed alternative data visualisation is as follows:
 
 ![](image/sketch.jpg)
 
-### 2.2 Advantages
+### 2.2 Advantages of alternative data visualisation
 Testing testing
 
 ### 2.3 Proposed data visualisation (in Tableau)
