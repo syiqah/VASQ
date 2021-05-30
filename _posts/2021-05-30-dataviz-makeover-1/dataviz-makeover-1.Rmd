@@ -79,68 +79,105 @@ Click on the "+" sign beside "Imports" and select "Add clean".
 
 ![](image/04-addcleanstep.jpg)
 
-Remove all "Fields" before Jan 2019 and after Dec 2020.
+Remove all "Fields" before 2019 Jan and after 2020 Dec.
 
 ![](image/05-removecolumns.jpg)
 
+To extract the country/region name, click on the "drop-down" arrow of the "Variables" field -> Split Values -> Automatic.
+
 ![](image/06-splitcountry.jpg)
+
+Tableau Prep will split the "Variables" field into two. Under the "Variables - Split 2" field, right click on "Million" and select "Exclude" as these refer to aggregate values at the regional level. Under the "Variables - Split 1" field, right click on "Total Merchandise Imports" as we do not require this aggregate information for our data visualisation.
 
 ![](image/07-excluderegionsandtotal.jpg)
 
+Double-click on "Variables - Split 1" field to rename it to "Country". Right-click on "Variables - Split 2" and "Variables" fields to remove them as they are redundant.
+
 ![](image/08-renamecountry.jpg)
+
+Click on the '+' sign beside "Clean 1" and select "Output" to save the output as a "import.csv" file.
 
 ![](image/09-importscsv.jpg)
 
+Perform the above steps for table "T2" and save the output as a "export.csv" file.
 
 ### 3.2 Data preparation in Microsoft Excel
 
+In Microsoft Excel, open "export.csv" and create a "Total export value 2019-2020" column to aggregate the value for each country/region. Click "Sort" to sort this column in descending order to obtain the top six countries that Singapore exports to.
+
 ![](image/10-top6exports.jpg)
 
+Open "import.csv" and perform the same steps as above to obtain the top six countries that Singapore imports from.
+
 ![](image/11-top6imports.jpg)
+
+Transpose the above information into "Month", "Trade", "Country/Region" and "Value" and save as "top6traders.xlsx" file.
 
 ![](image/12-consoltraders.jpg)
 
 ### 3.3 Creating line graphs in Tableau
-Testing testing
+Open Tableau. Click and drag "top6traders.xlsx" into the workspace.
 
 ![](image/13-opentableau.jpg)
 
+Click and drag the "Trade" and "Month" pills into Columns and "Value" pill into Rows to get the following basic chart.
+
 ![](image/14-basicdragpills.jpg)
+
+Click on the "Trade" pill under Columns and select "Filter". Check only the "Export" box.
 
 ![](image/15-filterforexport.jpg)
 
+Rename the chart title as follows:
+
 ![](image/16-renameexporttitle.jpg)
+
+Click on the "drop-down" arrow in the Legend box and select "Sort" -> Manual. Sort the countries according to the relative rank as at Dec 2020.
 
 ![](image/17-sortlegend.jpg)
 
+Double-click on the x-axis and edit the "Title" field to be empty to remove the redundant "Month by Month" header.
+
 ![](image/18-removex-axistitle.jpg)
+
+Double-click on the y-axis and rename the "Title" to "Value (S$)".
 
 ![](image/19-renamey-axistitle.jpg)
 
+Rename the worksheet tab to "Export". The final line graph for top six export partners looks as follows:
+
 ![](image/20-finalexport.jpg)
 
+Right-click on the "Export" sheet to duplicate it and rename the duplicate to "Import". Under the Filter panel, change the filter to "Import".
+
 ![](image/21-filterforimport.jpg)
+
+Perform the same steps as above to rename the title and sort the Legend. The final line graph for top six export partners looks as follows:
 
 ![](image/22-finalimport.jpg)
 
 ### 3.4 Creating dashboard in Tableau
-Testing testing
+Click on "New dashboard" tab. Click and drag the "Export" and "Import" sheets into the dashboard. Realign the items on the dashboard so that everything is clear. Select "Automatic" as the size.
 
 ![](image/23-basicdashboard.jpg)
+
+The final dashboard looks as follows:
 
 ![](image/24-finaldashboard.jpg)
 
 ## 4 Three major observations
 Based on the alternative data visualisation, we made the following observations:
 
-### 4.1 Observation 1
-Testing testing
+### 4.1 Mainland China is Singapore's top export and import partner
+Throughout 2019 and 2020, Singapore exported the most to Mainland China. Between Jan to Apr 2020, Singapore exported only slightly more to Hong Kong than Mainland China.
 
-### 4.2 Observation 2
-Testing testing
+During this two year period, Singapore also imported the most from Mainland China. When imports from Mainland China declined from Apr to June 2020, it appears that Singapore supplemented this with increased imports from Malaysia and Taiwan.
 
-### 4.3 Observation 3
-Testing testing
+### 4.2 A general dip in both exports and import between Mar to May 2020
+The COVID-19 pandemic impacted both Singapore's outward and inward trades with all its major partners during the period of border closure.
+
+### 4.3 Trade with Malaysia most sensitive between Jan to May 2020
+As Singapore's closest trading partner, we observe that both exports to and imports from Malaysia greatly suffered when our borders closed due to the COVID-19 pandemic.
 
 Distill is a publication format for scientific and technical writing, native to the web.
 

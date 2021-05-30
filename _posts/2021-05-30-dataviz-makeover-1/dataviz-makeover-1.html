@@ -1521,40 +1521,59 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="image/03-renameT1toimports.JPG" /></p>
 <p>Click on the “+” sign beside “Imports” and select “Add clean”.</p>
 <p><img src="image/04-addcleanstep.JPG" /></p>
-<p>Remove all “Fields” before Jan 2019 and after Dec 2020.</p>
+<p>Remove all “Fields” before 2019 Jan and after 2020 Dec.</p>
 <p><img src="image/05-removecolumns.JPG" /></p>
+<p>To extract the country/region name, click on the “drop-down” arrow of the “Variables” field -&gt; Split Values -&gt; Automatic.</p>
 <p><img src="image/06-splitcountry.JPG" /></p>
+<p>Tableau Prep will split the “Variables” field into two. Under the “Variables - Split 2” field, right click on “Million” and select “Exclude” as these refer to aggregate values at the regional level. Under the “Variables - Split 1” field, right click on “Total Merchandise Imports” as we do not require this aggregate information for our data visualisation.</p>
 <p><img src="image/07-excluderegionsandtotal.JPG" /></p>
+<p>Double-click on “Variables - Split 1” field to rename it to “Country”. Right-click on “Variables - Split 2” and “Variables” fields to remove them as they are redundant.</p>
 <p><img src="image/08-renamecountry.JPG" /></p>
+<p>Click on the ‘+’ sign beside “Clean 1” and select “Output” to save the output as a “import.csv” file.</p>
 <p><img src="image/09-importscsv.JPG" /></p>
+<p>Perform the above steps for table “T2” and save the output as a “export.csv” file.</p>
 <h3 id="data-preparation-in-microsoft-excel">3.2 Data preparation in Microsoft Excel</h3>
+<p>In Microsoft Excel, open “export.csv” and create a “Total export value 2019-2020” column to aggregate the value for each country/region. Click “Sort” to sort this column in descending order to obtain the top six countries that Singapore exports to.</p>
 <p><img src="image/10-top6exports.JPG" /></p>
+<p>Open “import.csv” and perform the same steps as above to obtain the top six countries that Singapore imports from.</p>
 <p><img src="image/11-top6imports.JPG" /></p>
+<p>Transpose the above information into “Month”, “Trade”, “Country/Region” and “Value” and save as “top6traders.xlsx” file.</p>
 <p><img src="image/12-consoltraders.JPG" /></p>
 <h3 id="creating-line-graphs-in-tableau">3.3 Creating line graphs in Tableau</h3>
-<p>Testing testing</p>
+<p>Open Tableau. Click and drag “top6traders.xlsx” into the workspace.</p>
 <p><img src="image/13-opentableau.JPG" /></p>
+<p>Click and drag the “Trade” and “Month” pills into Columns and “Value” pill into Rows to get the following basic chart.</p>
 <p><img src="image/14-basicdragpills.JPG" /></p>
+<p>Click on the “Trade” pill under Columns and select “Filter”. Check only the “Export” box.</p>
 <p><img src="image/15-filterforexport.JPG" /></p>
+<p>Rename the chart title as follows:</p>
 <p><img src="image/16-renameexporttitle.JPG" /></p>
+<p>Click on the “drop-down” arrow in the Legend box and select “Sort” -&gt; Manual. Sort the countries according to the relative rank as at Dec 2020.</p>
 <p><img src="image/17-sortlegend.JPG" /></p>
+<p>Double-click on the x-axis and edit the “Title” field to be empty to remove the redundant “Month by Month” header.</p>
 <p><img src="image/18-removex-axistitle.JPG" /></p>
+<p>Double-click on the y-axis and rename the “Title” to “Value (S$)”.</p>
 <p><img src="image/19-renamey-axistitle.JPG" /></p>
+<p>Rename the worksheet tab to “Export”. The final line graph for top six export partners looks as follows:</p>
 <p><img src="image/20-finalexport.JPG" /></p>
+<p>Right-click on the “Export” sheet to duplicate it and rename the duplicate to “Import”. Under the Filter panel, change the filter to “Import”.</p>
 <p><img src="image/21-filterforimport.JPG" /></p>
+<p>Perform the same steps as above to rename the title and sort the Legend. The final line graph for top six export partners looks as follows:</p>
 <p><img src="image/22-finalimport.JPG" /></p>
 <h3 id="creating-dashboard-in-tableau">3.4 Creating dashboard in Tableau</h3>
-<p>Testing testing</p>
+<p>Click on “New dashboard” tab. Click and drag the “Export” and “Import” sheets into the dashboard. Realign the items on the dashboard so that everything is clear. Select “Automatic” as the size.</p>
 <p><img src="image/23-basicdashboard.JPG" /></p>
+<p>The final dashboard looks as follows:</p>
 <p><img src="image/24-finaldashboard.jpg" /></p>
 <h2 id="three-major-observations">4 Three major observations</h2>
 <p>Based on the alternative data visualisation, we made the following observations:</p>
-<h3 id="observation-1">4.1 Observation 1</h3>
-<p>Testing testing</p>
-<h3 id="observation-2">4.2 Observation 2</h3>
-<p>Testing testing</p>
-<h3 id="observation-3">4.3 Observation 3</h3>
-<p>Testing testing</p>
+<h3 id="mainland-china-is-singapores-top-export-and-import-partner">4.1 Mainland China is Singapore’s top export and import partner</h3>
+<p>Throughout 2019 and 2020, Singapore exported the most to Mainland China. Between Jan to Apr 2020, Singapore exported only slightly more to Hong Kong than Mainland China.</p>
+<p>During this two year period, Singapore also imported the most from Mainland China. When imports from Mainland China declined from Apr to June 2020, it appears that Singapore supplemented this with increased imports from Malaysia and Taiwan.</p>
+<h3 id="a-general-dip-in-both-exports-and-import-between-mar-to-may-2020">4.2 A general dip in both exports and import between Mar to May 2020</h3>
+<p>The COVID-19 pandemic impacted both Singapore’s outward and inward trades with all its major partners during the period of border closure.</p>
+<h3 id="trade-with-malaysia-most-sensitive-between-jan-to-may-2020">4.3 Trade with Malaysia most sensitive between Jan to May 2020</h3>
+<p>As Singapore’s closest trading partner, we observe that both exports to and imports from Malaysia greatly suffered when our borders closed due to the COVID-19 pandemic.</p>
 <p>Distill is a publication format for scientific and technical writing, native to the web.</p>
 <p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
