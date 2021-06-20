@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-06-20-dataviz-makeover-2/",
+    "title": "DataViz Makeover 2",
+    "description": "To makeover the interactive data visualisation provided of Singapore’s merchandise trade from 2011 to 2020.",
+    "author": [
+      {
+        "name": "Nurulasyiqah Md. Taha",
+        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
+      }
+    ],
+    "date": "2021-06-20",
+    "categories": [],
+    "contents": "\r\n1 Critic\r\nWe will critic the following data visualisation based on clarity and aesthetic.\r\n Source: Department of Statistics, Singapore\r\n1.1 Clarity\r\n1.2 Aesthetic\r\n2 Alternative data visualisation\r\nWe propose an alternative data visualisation to strengthen the visualisation in terms of clarity and aesthetics.\r\n2.1 Sketch\r\nA brief sketch of the proposed alternative data visualisation is as follows:\r\n2.2 Advantages of alternative data visualisation\r\n2.3 Proposed data visualisation (in Tableau)\r\nUsing Tableau 2021.1, the alternative data visualisation is available for viewing in Tableau Public. A snapshot of the dashboard is as follows:\r\n3 Step-by-step guide to prepare data visualisation\r\nDownload the dataset from the Department of Statistics Singapore’s website on Merchandise Trade. Expand the “Merchandise Trade by Region/Market” tab and click on “Download all in Excel”. Retain the file name as “outputFile.xlsx”.\r\n3.1 Data preparation in Tableau Prep\r\nOpen Tableau Prep Builder 2021.1 and click on “Connect” -> To a File: Microsoft Excel.\r\n3.2 Creating bubble plots in Tableau\r\nOpen Tableau. Click and drag “__________” into the workspace.\r\n3.3 Creating dashboard in Tableau\r\nClick on “New dashboard” tab. Click and drag the “Export” and “Import” sheets into the dashboard. Realign the items on the dashboard so that everything is clear. Select “Automatic” as the size.\r\n4 Three major observations\r\n4.1\r\n4.2\r\n4.3\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-06-20T13:07:33+08:00",
+    "input_file": "dataviz-makeover-2.knit.md"
+  },
+  {
     "path": "posts/2021-05-30-dataviz-makeover-1/",
     "title": "DataViz Makeover 1",
     "description": "To makeover the data visualisation provided of Singapore's merchandise trade from 2019 to 2020.",
