@@ -2191,6 +2191,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img src="image/20-outputcsv.JPG" /></p>
 <h3 id="creating-bubbleplot-in-tableau">3.2 Creating bubbleplot in Tableau</h3>
 <p>Open <strong>Tableau 2021.1</strong>. Click and drag “tradepartners.csv” into the workspace.</p>
+<p><strong>To build foundation scatter plot</strong></p>
 <p>In “Sheet 1”, start by building the foundation scatter plot:</p>
 <ul>
 <li>Click and drag “Export” pill into “Column”</li>
@@ -2198,14 +2199,56 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 <p><img src="image/21-foundation.JPG" /></p>
 <p>Click and drag the “Month” pill into the “Filters” pane. Select “Years” and click “Next”. Click “All”, “Apply” and “OK”.</p>
-<p><img src="image/22-monthtofilter.JPG" /><img src="image/23-allyears.JPG" style="width:30.0%" /></p>
-<p><img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /></p>
+<p><img src="image/22-monthtofilter.JPG" style="width:30.0%" /><img src="image/23-allyears.JPG" style="width:40.0%" /></p>
+<p>Click on the drop-down arrow of the “YEAR(Month)” pill and select “Show Filter”, which will appear on the right-hand side. Click on the drop-down arrow of the “YEAR(Month)” filter and select “Single value (list)” so that user may choose only one year at a time.</p>
+<p><img src="image/24-showfilter.JPG" /> <img src="image/25-singlevaluelist.JPG" /></p>
+<p>From the Toolbar header, click “Analysis” -&gt; “Create Calculated Field”. Enter the following formula to create a “Trade value” pill under the “Data” pane.</p>
+<p><img src="image/26-calctradevalue.JPG" style="width:50.0%" /></p>
+<p>Click and drag the “Trade value” pill into “Size” under the “Marks” pane. Click and drag the “Trade partner” pill into “Color” under the “Marks” pane. Change the mark from “Automatic” to “Circle”. On the right-hand side, click the drop-down arrow for “SUM(Trade value)” and select “Hide card”.</p>
+<p><img src="image/27-partnervaluecircle.JPG" /></p>
+<p>In the “Marks” pane, click on the “Size” button and use the slider to make the bubbles bigger. In the same pane, click on the “Color” button to change the opacity to 50% and select a grey border for the bubbles.</p>
+<p><img src="image/28-resizebubble.JPG" /> <img src="image/29-opacity.jpg" /></p>
+<p><strong>To create diagonal reference line</strong></p>
+<p>Right-click on the y-axis and select “Edit”. Select “Fixed” range from “0 to 80,000,000,000” and revise the “Axis Title” to “Import (S$ )”. Right-click on the x-axis and select “Edit”. Select “Fixed” range from “0 to 80,000,000,000” and revise the “Axis Title” to “Export (S$ )”.</p>
+<p><img src="image/30-importaxis.JPG" style="width:30.0%" /> <img src="image/31-exportaxis.JPG" style="width:30.0%" /></p>
+<p>Click and drag “Import” pill into the “Columns”.</p>
+<p><img src="image/32-duplicateimport.JPG" /></p>
+<p>Click on the drop-down arrow of the most recent “SUM(Import)” pill and select “Dual Axis” and “Synchronise”.</p>
+<p><img src="image/33-dualsync.JPG" /></p>
+<p>In the “Marks” pane, click on the “SUM(Import)” tab. Click on the “Size” button and slide to 0. Click on the “Color” button and set 0% opacity and border “None”.</p>
+<p><img src="image/34-importpane0.jpg" /></p>
+<p>In the “Marks” pane, click on the “All” tab. Click and drag the “Measure Names” pill out to remove it.</p>
+<p><img src="image/34-removemeasurenames.JPG" /></p>
+<p>In the “Marks” pane, click on the “SUM(Import)” tab again. On the graph, right-click on the blank space -&gt; “Trend Lines” -&gt; “Show Trend Lines” -&gt; “SUM(Import)”.</p>
+<p><img src="image/35-trendlines.jpg" /></p>
+<p><strong>To recover the bubbles</strong></p>
+<p>In the “Marks” pane, click on the “SUM(Export)” tab. Click on the “Size” button and use the slider to make the bubbles bigger.</p>
+<p><img src="image/36-resizebubble.jpg" /></p>
+<p><strong>To give a title with dynamic year to visualisation</strong></p>
+<p>Double click on the “Sheet 1” title field and edit the title as follows. Click on “Insert” -&gt; “YEAR(Month)” to make the year in the title dynamic. Click “Apply” and “OK”.</p>
+<p><img src="image/37-title.JPG" style="width:50.0%" /></p>
+<p><strong>To annotate areas of the graph</strong></p>
+<p>Right-click on the top left of the graph and select “Annotate” -&gt; “Area…”. Type in “Negative trade balance” and click “Apply” and “OK”. Under “Format Annotation”, select “None” for “Box Shading” so that it is transparent. Right-click on the bottom right of the graph and perform the same steps to create “Positive trade balance”.</p>
+<p><img src="image/38-areaannotation.JPG" /></p>
+<p><strong>To create Tooltips</strong></p>
+<p>From the Toolbar header, click “Analysis” -&gt; “Create Calculated Field”. Enter the following formula to create a “Trade balance” pill under the “Data” pane.</p>
+<p><img src="image/39-calctradebal.JPG" style="width:50.0%" /></p>
+<p>Right-click on the newly created “Trade balance” pill and select “Format”. Select “Currency(Custom)”, 0 decimal places and negative values.</p>
+<p><img src="image/40-currency.jpg" /> In the “Marks” pane, click on the “Tooltips” button. Revise the tooltip as follows. Use the “Insert” button for dynamic fields. Click “Apply” and “OK”.</p>
+<p><img src="image/41-tooltips.JPG" style="width:50.0%" /></p>
+<p><strong>To create animation</strong></p>
+<p>From the Toolbar header, click “Format” -&gt; “Animations…”. Click “On” for “Workbook Default” and set “Duration” as “Slow”.</p>
+<p><img src="image/43-animation.JPG" /></p>
 <h3 id="creating-dashboard-in-tableau">3.3 Creating dashboard in Tableau</h3>
-<p>Click on “New dashboard” tab. Click and drag the “Export” and “Import” sheets into the dashboard. Realign the items on the dashboard so that everything is clear. Select “Automatic” as the size.</p>
+<p>Click on “New dashboard” button at the bottom of the window. Click and drag “Bubbleplot” sheet into the dashboard. Add a “Text” box to provide the definition of the European Union. Add “Blank” object boxes to realign all elements of the dashboard. Select “Automatic” for “Size”.</p>
+<p><img src="image/44-dashboard.JPG" /></p>
 <h2 id="three-major-observations">4 Three major observations</h2>
-<h3 id="section">4.1</h3>
-<h3 id="section-1">4.2</h3>
-<h3 id="section-2">4.3</h3>
+<h3 id="singapore-maintains-a-positive-trade-balance-with-mainland-china-over-the-past-decade">4.1 Singapore maintains a positive trade balance with Mainland China over the past decade</h3>
+<p>Using the interactive dashboard, we can observe that the total trade value bubble for Mainland China (in green) consistently remains on the top corner of the “Positive trade balance” region of the graph from 2011 to 2020. Both Singapore’s exports to and imports from Mainland China remain high compared to the other nine trade partners throughout the past decade.</p>
+<h3 id="singapore-maintains-a-positive-trade-balance-with-hong-kong-over-the-past-decade">4.2 Singapore maintains a positive trade balance with Hong Kong over the past decade</h3>
+<p>Using the interactive dashboard, we can observe that the total trade value bubble for Hong Kong (in orange) moving horizontally above the x-axis in the bottom right corner of the “Positive trade balance” region from 2011 to 2020. Contrary to Mainland China, Singapore’s imports from Hong Kong consistently remains around SGD 5 billion, whereas its exports fluctuate between SGD 55 to 60 billion throughout the past decade.</p>
+<h3 id="singapore-reported-a-positive-trade-balance-with-the-republic-of-korea-korea-for-the-first-time-in-2017">4.3 Singapore reported a positive trade balance with the Republic of Korea (Korea) for the first time in 2017</h3>
+<p>Using the interactive dashboard, we can observe that the total trade value bubble for Korea (in purple) crossing the diagonal line (from the “Negative trade balance” to “Positive trade balance” region) for the first time in the past decade in 2017. The size of Singapore’s exports and imports from Korea has remained relatively stable, nonetheless.</p>
 <p>Distill is a publication format for scientific and technical writing, native to the web.</p>
 <p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
