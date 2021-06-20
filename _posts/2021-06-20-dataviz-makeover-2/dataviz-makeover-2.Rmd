@@ -41,7 +41,77 @@ Download the dataset from the Department of Statistics Singapore's website on [M
 
 ### 3.1 Data preparation in Tableau Prep
 
-Open Tableau Prep Builder 2021.1 and click on "Connect" -> To a File: Microsoft Excel.
+Open Tableau Prep Builder 2021.1 and click on "Connect to data" button. Next, select "To a File: Microsoft Excel".
+
+![](image/01-connecttableauprep.jpg){width=50%}
+![](image/02-msexcel.JPG){width=50%}
+
+Locate the unzipped file "outputFile.xlsx" and click OK.
+
+![](image/03-outputfile.jpg){width=50%}
+
+Check the “Use Data Interpreter” box to perform preliminary cleaning on the dataset.
+
+![](image/04-dataintp.jpg){width=30%}
+
+Click and drag “T1” table into the "Add Data" workspace. Right-click on the "T1" node and rename it to “Import”.
+
+![](image/05-T1import.jpg)
+
+Click on the "+" button of the "Import" node and select "Clean Step".
+
+![](image/06-cleanstep.jpg)
+
+As we only require data from 2011 to 2020:
+
+* Click on "1976 Jan" column, press "shift" key and click on "2010 Dec" column. Right-click on "2010 Dec" column and select "Hide Fields".
+* Click on "2021 Jan" column, press "shift" key and click on "2021 Apr" column. Right-click on "2021 Apr" column and select "Hide Fields".
+
+![](image/07-hidedates.jpg)
+![](image/08-hidedates.jpg)
+
+To extract the country/region name, click on the “drop-down” arrow of the “Variables” field -> Split Values -> Automatic Split.
+
+![](image/09-splitcountryname.jpg)
+Click on the "drop-down" arrow of the "Variables - Split 1" field  -> Rename Field. Rename the column to "Trade partner". Right-click on "Variables - Split 2" and "Variables" fields to remove them as they are redundant.
+
+![](image/10-renamepartnerdelete.jpg)
+
+To keep only the 10 major trade partners, click on the 'drop-down" arrow of the "Trade partner" field -> Filter -> Selected Values. Check the boxes for the 10 trade partners and click the "Done" button.
+
+![](image/11-filterkeep.jpg)
+![](image/12-filteredpartners.jpg)
+
+To transpose the data from a wide form to a long form, click on the "+" button of the "Clean 1" node and select "Pivot". Select all the month fields and drag them into the "Pivoted Fields" section.
+
+![](image/13-pivotnode.jpg)
+![](image/14-selectmonthspivot.jpg)
+
+Right-click on "Pivot1 Values" field to rename it to "Import". Right-click on "Pivot1 Names" field to rename it to "Month" and click on the "ABC" button to change the field type to "Date".
+
+![](image/15-renamedpivot.jpg)
+
+Repeat all the steps above for T2. Rename "Pivot Values" field to "Export"
+
+![](image/16-repeatforT2.jpg)
+
+To perform a full join for both Import and Export tables, click on the "+" button" of "Pivot1" node and select "Join". Click and drag "Pivot3" node into "Add" of the "Join" node. For the "Join Settings":
+
+* Applied Join Clauses: Select "Trade partner" and "Month"
+* Join Type: Select "full"
+
+![](image/17-fulljoin.jpg)
+
+Click on the "+" button of "Join 1" node to add a "Clean Step". Click on "Month-1" field, press "Ctrl" key, click on "Month" field, right-click and select "Merge". Do the same to merge "Trade partner-1" and "Trade partner" fields.
+
+![](image/18-mergemonth.jpg)
+![](image/19-mergepartner.jpg)
+
+Click on the ‘+’ button of the “Clean 3” node and select “Output” to save the output as a “tradepartners.csv” file.
+
+![](image/20-outputcsv.jpg)
+
+
 
 
 ### 3.2 Creating bubble plots in Tableau

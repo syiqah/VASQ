@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/header-attrs-2.8/header-attrs.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","image/original.jpg"]}
+  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/header-attrs-2.8/header-attrs.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","image/01-connecttableauprep.JPG","image/02-msexcel.JPG","image/03-outputfile.JPG","image/04-dataintp.JPG","image/05-T1import.JPG","image/06-cleanstep.JPG","image/07-hidedates.JPG","image/08-hidedates.JPG","image/09-splitcountryname.JPG","image/10-renamepartnerdelete.JPG","image/11-filterkeep.JPG","image/12-filteredpartners.JPG","image/13-pivotnode.JPG","image/14-selectmonthspivot.JPG","image/15-renamedpivot.JPG","image/16-repeatforT2.JPG","image/17-fulljoin.JPG","image/18-mergemonth.JPG","image/19-mergepartner.JPG","image/20-outputcsv.JPG","image/original.jpg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2113,7 +2113,43 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 id="step-by-step-guide-to-prepare-data-visualisation">3 Step-by-step guide to prepare data visualisation</h2>
 <p>Download the dataset from the Department of Statistics Singapore’s website on <a href="https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data/">Merchandise Trade</a>. Expand the “Merchandise Trade by Region/Market” tab and click on “Download all in Excel”. Retain the file name as “outputFile.xlsx”.</p>
 <h3 id="data-preparation-in-tableau-prep">3.1 Data preparation in Tableau Prep</h3>
-<p>Open Tableau Prep Builder 2021.1 and click on “Connect” -&gt; To a File: Microsoft Excel.</p>
+<p>Open Tableau Prep Builder 2021.1 and click on “Connect to data” button. Next, select “To a File: Microsoft Excel”.</p>
+<p><img src="image/01-connecttableauprep.JPG" style="width:50.0%" /> <img src="image/02-msexcel.JPG" style="width:50.0%" /></p>
+<p>Locate the unzipped file “outputFile.xlsx” and click OK.</p>
+<p><img src="image/03-outputfile.JPG" style="width:50.0%" /></p>
+<p>Check the “Use Data Interpreter” box to perform preliminary cleaning on the dataset.</p>
+<p><img src="image/04-dataintp.JPG" style="width:30.0%" /></p>
+<p>Click and drag “T1” table into the “Add Data” workspace. Right-click on the “T1” node and rename it to “Import”.</p>
+<p><img src="image/05-T1import.JPG" /></p>
+<p>Click on the “+” button of the “Import” node and select “Clean Step”.</p>
+<p><img src="image/06-cleanstep.JPG" /></p>
+<p>As we only require data from 2011 to 2020:</p>
+<ul>
+<li>Click on “1976 Jan” column, press “shift” key and click on “2010 Dec” column. Right-click on “2010 Dec” column and select “Hide Fields”.</li>
+<li>Click on “2021 Jan” column, press “shift” key and click on “2021 Apr” column. Right-click on “2021 Apr” column and select “Hide Fields”.</li>
+</ul>
+<p><img src="image/07-hidedates.JPG" /> <img src="image/08-hidedates.JPG" /></p>
+<p>To extract the country/region name, click on the “drop-down” arrow of the “Variables” field -&gt; Split Values -&gt; Automatic Split.</p>
+<p><img src="image/09-splitcountryname.JPG" /> Click on the “drop-down” arrow of the “Variables - Split 1” field -&gt; Rename Field. Rename the column to “Trade partner”. Right-click on “Variables - Split 2” and “Variables” fields to remove them as they are redundant.</p>
+<p><img src="image/10-renamepartnerdelete.JPG" /></p>
+<p>To keep only the 10 major trade partners, click on the ’drop-down" arrow of the “Trade partner” field -&gt; Filter -&gt; Selected Values. Check the boxes for the 10 trade partners and click the “Done” button.</p>
+<p><img src="image/11-filterkeep.JPG" /> <img src="image/12-filteredpartners.JPG" /></p>
+<p>To transpose the data from a wide form to a long form, click on the “+” button of the “Clean 1” node and select “Pivot”. Select all the month fields and drag them into the “Pivoted Fields” section.</p>
+<p><img src="image/13-pivotnode.JPG" /> <img src="image/14-selectmonthspivot.JPG" /></p>
+<p>Right-click on “Pivot1 Values” field to rename it to “Import”. Right-click on “Pivot1 Names” field to rename it to “Month” and click on the “ABC” button to change the field type to “Date”.</p>
+<p><img src="image/15-renamedpivot.JPG" /></p>
+<p>Repeat all the steps above for T2. Rename “Pivot Values” field to “Export”</p>
+<p><img src="image/16-repeatforT2.JPG" /></p>
+<p>To perform a full join for both Import and Export tables, click on the “+” button" of “Pivot1” node and select “Join”. Click and drag “Pivot3” node into “Add” of the “Join” node. For the “Join Settings”:</p>
+<ul>
+<li>Applied Join Clauses: Select “Trade partner” and “Month”</li>
+<li>Join Type: Select “full”</li>
+</ul>
+<p><img src="image/17-fulljoin.JPG" /></p>
+<p>Click on the “+” button of “Join 1” node to add a “Clean Step”. Click on “Month-1” field, press “Ctrl” key, click on “Month” field, right-click and select “Merge”. Do the same to merge “Trade partner-1” and “Trade partner” fields.</p>
+<p><img src="image/18-mergemonth.JPG" /> <img src="image/19-mergepartner.JPG" /></p>
+<p>Click on the ‘+’ button of the “Clean 3” node and select “Output” to save the output as a “tradepartners.csv” file.</p>
+<p><img src="image/20-outputcsv.JPG" /></p>
 <h3 id="creating-bubble-plots-in-tableau">3.2 Creating bubble plots in Tableau</h3>
 <p>Open Tableau. Click and drag “__________” into the workspace.</p>
 <h3 id="creating-dashboard-in-tableau">3.3 Creating dashboard in Tableau</h3>
