@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/header-attrs-2.8/header-attrs.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","image/01-connecttableauprep.JPG","image/02-msexcel.JPG","image/03-outputfile.JPG","image/04-dataintp.JPG","image/05-T1import.JPG","image/06-cleanstep.JPG","image/07-hidedates.JPG","image/08-hidedates.JPG","image/09-splitcountryname.JPG","image/10-renamepartnerdelete.JPG","image/11-filterkeep.JPG","image/12-filteredpartners.JPG","image/13-pivotnode.JPG","image/14-selectmonthspivot.JPG","image/15-renamedpivot.JPG","image/16-repeatforT2.JPG","image/17-fulljoin.JPG","image/18-mergemonth.JPG","image/19-mergepartner.JPG","image/20-outputcsv.JPG","image/original.jpg"]}
+  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/header-attrs-2.8/header-attrs.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","image/01-connecttableauprep.JPG","image/02-msexcel.JPG","image/03-outputfile.JPG","image/04-dataintp.JPG","image/05-T1import.JPG","image/06-cleanstep.JPG","image/07-hidedates.JPG","image/08-hidedates.JPG","image/09-splitcountryname.JPG","image/10-renamepartnerdelete.JPG","image/11-filterkeep.JPG","image/12-filteredpartners.JPG","image/13-pivotnode.JPG","image/14-selectmonthspivot.JPG","image/15-renamedpivot.JPG","image/16-repeatforT2.JPG","image/17-fulljoin.JPG","image/18-mergemonth.JPG","image/19-mergepartner.JPG","image/20-outputcsv.JPG","image/21-foundation.JPG","image/22-monthtofilter.JPG","image/23-allyears.JPG","image/24-showfilter.JPG","image/25-singlevaluelist.JPG","image/26-calctradevalue.JPG","image/27-partnervaluecircle.JPG","image/28-resizebubble.JPG","image/29-opacity.jpg","image/30-importaxis.JPG","image/31-exportaxis.JPG","image/32-duplicateimport.JPG","image/33-dualsync.JPG","image/34-importpane0.jpg","image/34-removemeasurenames.JPG","image/35-trendlines.jpg","image/36-resizebubble.jpg","image/37-title.JPG","image/38-areaannotation.JPG","image/39-calctradebal.JPG","image/40-currency.jpg","image/41-tooltips.JPG","image/42-filtertradepartner.JPG","image/43-animation.JPG","image/44-dashboard.JPG","image/altsketch.jpeg","image/original.jpg","image/Trade value and balance.jpg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2100,20 +2100,59 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="d-article">
 <h2 id="critic">1 Critic</h2>
 <p>We will critic the following data visualisation based on clarity and aesthetic.</p>
-<p><img src="image/original.jpg" /> Source: <a href="https://www.singstat.gov.sg/modules/infographics/singapore-international-trade">Department of Statistics, Singapore</a></p>
+<figure>
+<img src="image/original.jpg" alt="Source: Department of Statistics, Singapore" /><figcaption aria-hidden="true">Source: <a href="https://www.singstat.gov.sg/modules/infographics/singapore-international-trade">Department of Statistics, Singapore</a></figcaption>
+</figure>
 <h3 id="clarity">1.1 Clarity</h3>
+<ul>
+<li><strong>The visualisation lacks a main title.</strong> User must click on the source link of the visualisation to access the original visualisation on the Department of Statistics, Singapore website to learn that the visualisation is of merchandise trade performance with major trading partners in 2020. Ideally, the static visualisation should include the title so that the user can understand at one glance the purpose and scope of the visualisation, instead of having to read the notes or click to the original visualisation webpage.</li>
+<li><strong>Lack of definition for “Total merchandise trade value”.</strong> “Total merchandise trade value” is not clearly defined as the sum of export value and import value, for each trading partner. This should be distinguished from “trade balance”, which is the difference between export value and import value, for each trading partner.</li>
+<li><strong>The shaded regions “Net Exporters” (in green) and “Net Importers” (in blue) are misleading.</strong> The note to the visualisation explains that “if the value of imports exceeds exports, the centre point of the bubble falls in the “Net Importers”… blue region”. Take for example Taiwan - intuitively, if Singapore’s value of imports from Taiwan exceeds the value of exports to Taiwan, Taiwan is a net exporter to Singapore and should not be labelled as a net importer. Conversely, if Singapore’s value of exports to Hong Kong exceeds the value of imports from Hong Kong, Hong Kong is a net importer from Singapore and should not be labelled as a net exporter. Therefore, the shaded regions should be revised to “Net exports from Singapore” (in green) and “Net imports from Singapore” (in blue)</li>
+<li><strong>Lack of definition for EU.</strong> Nine of the trading partner bubbles refer to Singapore’s trading partner countries or regions but “EU” is the only bubble that is an aggregation of merchandise trade with 27 countries in the European Union. While we can appreciate the relevance of comparing the European Union as a trading partner vis-à-vis the other nine countries, the member countries of the European Union should be clearly listed.</li>
+<li><strong>Missing units for both axes.</strong> The graph is missing the basic requirement for axes to be clearly labelled with the counting unit. User must look at the bubble annotations to understand that the axes are in billion Singapore dollars.</li>
+<li><strong>Unclear context of information box.</strong> At the bottom of the visualisation, there is an information box commenting on the trend of exports exceeding imports with Mainland China since 2009 and trend of imports exceeding with the United States since 2006. This information is not meaningful for the user reading the static visualisation for 2020. It would be more meaningful to include at least the 2006 and 2009 data for visualisation with a slope graph.</li>
+</ul>
 <h3 id="aesthetic">1.2 Aesthetic</h3>
+<ul>
+<li><strong>Smaller bubbles hidden by larger bubbles.</strong> The “total merchandise trade value” bubbles are too opaque so trading partners with smaller total merchandise trade values are hidden behind those with larger total merchandise trade values. By making the bubbles more translucent, they can overlap each other while remaining at their respective positions on the graph.</li>
+<li><strong>Labels of both axes are not intuitive.</strong> The labelling of “Exports” and “Imports” axes with icons at the zero-origin are confusing. User has to double-check that the label “Exports” refer to the x-axis and “Imports” refer to the y-axis. Typically, the word “Export” should appear along the x-axis and “Imports” along the y-axis for ease of reading and simple intuition.</li>
+<li><strong>Absence of reference lines.</strong> It is challenging for user to read the export and import value of a specific trading partner. Even when user hovers pointer over the original interactive visualisation to bring forward the bubble (e.g. European Union), it is still difficult to read the exact export and import values.</li>
+</ul>
 <h2 id="alternative-data-visualisation">2 Alternative data visualisation</h2>
-<p>We propose an alternative data visualisation to strengthen the visualisation in terms of clarity and aesthetics.</p>
+<p>We propose an alternative interactive data visualisation to strengthen the visualisation in terms of clarity and aesthetics.</p>
 <h3 id="sketch">2.1 Sketch</h3>
 <p>A brief sketch of the proposed alternative data visualisation is as follows:</p>
+<figure>
+<img src="image/altsketch.jpeg" alt="Credit: Student assistant, Chong Zhan Han" /><figcaption aria-hidden="true">Credit: Student assistant, Chong Zhan Han</figcaption>
+</figure>
 <h3 id="advantages-of-alternative-data-visualisation">2.2 Advantages of alternative data visualisation</h3>
+<ul>
+<li><strong>Graphical design principles</strong>
+<ul>
+<li>A dynamic title is given to the visualisation, which follows the “Year” radio button when toggled.</li>
+<li>The axes are labelled per normal convention to avoid confusion for the user.</li>
+<li>The top left triangular region of the graph is labelled as “Negative trade balance” and the bottom right triangular region of the graph is labelled as “Positive trade balance”. This is to mitigate the “Net importers” and “Net exporters” confusion created by the original visualisation.</li>
+<li>The “trade value” bubbles are more translucent such that smaller bubbles are not hidden by larger bubbles.</li>
+<li>Reference lines are added if user wishes to estimate the exact export or import value Singapore made with a trade partner. Otherwise, the user may rely on tooltips for detailed information.</li>
+<li>A note is added at the bottom of the visualisation that unlike the other nine trade partners, the European Union comprises 27 countries.</li>
+</ul></li>
+<li><strong>Statistical graphic methods</strong>
+<ul>
+<li>The “trade value” bubbles are now proportionally-sized, unlike the original visualisation that exaggerated the trade value of Mainland China in relation to the other trade partners.</li>
+</ul></li>
+<li><strong>Interactive techniques (including animation)</strong>
+<ul>
+<li>Tooltips are provided such that when user hovers over the edge of a “trade value” bubble, detailed information on Singapore’s trade value and trade balance.</li>
+<li>We have incorporated a slow-speed animation for user to see the trade value bubble for a trade partner change in relative size and position on the graph when the user toggles the “Year” radio buttons. User can also see more than one trade partner’s movement each time the “Year” radio button is toggles and this facilitates a convenient high-level comparison of trade partners.</li>
+</ul></li>
+</ul>
 <h3 id="proposed-data-visualisation-in-tableau">2.3 Proposed data visualisation (in Tableau)</h3>
-<p>Using Tableau 2021.1, the alternative data visualisation is available for viewing in <a href="">Tableau Public</a>. A snapshot of the dashboard is as follows:</p>
+<p>Using <strong>Tableau 2021.1</strong>, the alternative data visualisation is available for viewing in <a href="https://public.tableau.com/app/profile/nurulasyiqah.md.taha/viz/SingaporeMajorTradePartners/Tradevalueandbalance">Tableau Public</a>. A snapshot of the dashboard is as follows:</p>
+<p><img src="image/Trade%20value%20and%20balance.jpg" /></p>
 <h2 id="step-by-step-guide-to-prepare-data-visualisation">3 Step-by-step guide to prepare data visualisation</h2>
 <p>Download the dataset from the Department of Statistics Singapore’s website on <a href="https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data/">Merchandise Trade</a>. Expand the “Merchandise Trade by Region/Market” tab and click on “Download all in Excel”. Retain the file name as “outputFile.xlsx”.</p>
 <h3 id="data-preparation-in-tableau-prep">3.1 Data preparation in Tableau Prep</h3>
-<p>Open Tableau Prep Builder 2021.1 and click on “Connect to data” button. Next, select “To a File: Microsoft Excel”.</p>
+<p>Open <strong>Tableau Prep Builder 2021.1</strong> and click on “Connect to data” button. Next, select “To a File: Microsoft Excel”.</p>
 <p><img src="image/01-connecttableauprep.JPG" style="width:50.0%" /> <img src="image/02-msexcel.JPG" style="width:50.0%" /></p>
 <p>Locate the unzipped file “outputFile.xlsx” and click OK.</p>
 <p><img src="image/03-outputfile.JPG" style="width:50.0%" /></p>
@@ -2150,8 +2189,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img src="image/18-mergemonth.JPG" /> <img src="image/19-mergepartner.JPG" /></p>
 <p>Click on the ‘+’ button of the “Clean 3” node and select “Output” to save the output as a “tradepartners.csv” file.</p>
 <p><img src="image/20-outputcsv.JPG" /></p>
-<h3 id="creating-bubble-plots-in-tableau">3.2 Creating bubble plots in Tableau</h3>
-<p>Open Tableau. Click and drag “__________” into the workspace.</p>
+<h3 id="creating-bubbleplot-in-tableau">3.2 Creating bubbleplot in Tableau</h3>
+<p>Open <strong>Tableau 2021.1</strong>. Click and drag “tradepartners.csv” into the workspace.</p>
+<p>In “Sheet 1”, start by building the foundation scatter plot:</p>
+<ul>
+<li>Click and drag “Export” pill into “Column”</li>
+<li>Click and drag “Import” pill into “Row”</li>
+</ul>
+<p><img src="image/21-foundation.JPG" /></p>
+<p>Click and drag the “Month” pill into the “Filters” pane. Select “Years” and click “Next”. Click “All”, “Apply” and “OK”.</p>
+<p><img src="image/22-monthtofilter.JPG" /><img src="image/23-allyears.JPG" style="width:30.0%" /></p>
+<p><img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /> <img src="image/.jpg" /></p>
 <h3 id="creating-dashboard-in-tableau">3.3 Creating dashboard in Tableau</h3>
 <p>Click on “New dashboard” tab. Click and drag the “Export” and “Import” sheets into the dashboard. Realign the items on the dashboard so that everything is clear. Select “Automatic” as the size.</p>
 <h2 id="three-major-observations">4 Three major observations</h2>
