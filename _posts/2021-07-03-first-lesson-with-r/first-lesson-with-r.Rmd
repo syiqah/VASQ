@@ -19,6 +19,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ### How to install and launch R packages
 
 The following code chunk installs and launches R packages.
+
 ```{r}
 packages = c('DT', 'ggiraph',
               'plotly', 'tidyverse')
@@ -85,7 +86,8 @@ ggplot(data = exam_data, aes(x = MATHS)) +
   geom_dotplot(dotsize = 0.5)
 ```
 
-We make some refinement with the following changes to input arguments for geom_dotplot() and scale_y_continuous().
+<br> We make some refinement with the following changes to input arguments for geom_dotplot() and scale_y_continuous().
+
 ```{r}
 ggplot(data = exam_data, aes(x = MATHS)) +
   geom_dotplot(binwidth=2.5,
