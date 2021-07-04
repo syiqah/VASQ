@@ -87,7 +87,7 @@ ggplot(data = exam_data, aes(x = MATHS)) +
   geom_dotplot(dotsize = 0.5)
 ```
 
-<br> We make some refinement with the following changes to input arguments for geom_dotplot() and scale_y_continuous().
+We make some refinement with the following changes to input arguments for geom_dotplot() and scale_y_continuous().
 
 ```{r}
 ggplot(data = exam_data, aes(x = MATHS)) +
@@ -173,7 +173,6 @@ girafe(
   height_svg = 6*0.618
 )
 ```
-
 
 ### How to create a hover effect with data_id aesthetic
 
@@ -273,6 +272,90 @@ plot_ly(data = exam_data,
             colors = "Set1")
 ```
 
+The following code chunk defines your own colour scheme.
+
+```{r}
+pal <- c("red", "blue", "green", "purple") # This R object is a list of colours that should be mapped with the same number of classes of race.
+
+plot_ly(data = exam_data, 
+            x = ~ENGLISH, 
+            y = ~MATHS,
+            color = ~RACE,
+            colors = pal)
+```
+
+### How to customise the tooltip
+
+```{r}
+plot_ly(data = exam_data, 
+            x = ~ENGLISH, 
+            y = ~MATHS,
+            text = ~paste("Student ID:", ID,
+                          "<br>Class:", CLASS),
+#<br> returns a next line
+            color = ~RACE,
+            colors = "Set1")
+```
+
+Notice that the tooltip will automatically:
+
+* Switch sides to where there is more empty space
+* Follow the same colour of the data point.
+
+Also, the font colour of the tooltip text will automatically contrast against the tooltip box.
+
+### How to add a title to the visualisation
+
+```{r}
+plot_ly(data = exam_data, 
+            x = ~ENGLISH, 
+            y = ~MATHS,
+            text = ~paste("Student ID:", ID,
+                          "<br>Class:", CLASS),
+            color = ~RACE,
+            colors = "Set1") %>%
+  layout(title = 'English score versus Maths score',
+         xaxis = list(range = c(0,100)),
+         yaxis = list(range = c(0,100)))
+  
+```
+
+### How to create interactive scatter plot using ggplotly()
+
+```{r}
+p <- ggplot(data=exam_data, 
+            aes(x = MATHS, y = ENGLISH)) +
+  geom_point(size = 1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+ggplotly(p)
+
+```
+
+Notice that you cannot use geom_point() with ggplotly().
+
+### How to work with subplots or multiple plots
+
+For more information, refer to [Plotly R Library Subplots and Multiple Axes](https://plotly.com/r/subplot-charts/). 
+
+```{r}
+p1 <- ggplot(data=exam_data, 
+            aes(x = MATHS, y = ENGLISH)) +
+  geom_point(size = 1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+
+p2 <- ggplot(data=exam_data, 
+            aes(x = MATHS, y = SCIENCE)) +
+  geom_point(size = 1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+
+subplot(ggplotly(p1),
+        ggplotly(p2))
+```
+
+Note that subplot is simply plotting two graphs side by side.
 
 ---
 
