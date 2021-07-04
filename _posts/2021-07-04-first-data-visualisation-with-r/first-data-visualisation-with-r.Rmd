@@ -357,8 +357,77 @@ subplot(ggplotly(p1),
 
 Note that subplot is simply plotting two graphs side by side.
 
----
+### To create coordinated multiple linked view
 
+We use highlight_key() as a wrapper for crosstalk::SharedData.
+
+```{r}
+d <- highlight_key(exam_data)
+
+p1 <- ggplot(data=d, 
+            aes(x = MATHS, y = ENGLISH)) +
+  geom_point(size = 1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+
+p2 <- ggplot(data=d, 
+            aes(x = MATHS, y = SCIENCE)) +
+  geom_point(size = 1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+
+subplot(ggplotly(p1),
+        ggplotly(p2))
+```
+
+### How to create an interactive data table
+
+We use DT package to create a dynamic data table without the typical hassle of working in html. For more information, refer to [DT in R]().
+
+```{r}
+DT::datatable(exam_data)
+```
+
+Be mindful of relevant variables to showcase in the DT table. If too many columns, consider using a heatmap instead.
+
+### How to create linked brushing using crosstalk
+
+Linked brushing allows you to select datapoints from a graph and outputs the corresponding data rows in the DT table.
+
+It is very useful for data exploration.
+
+```{r}
+d <- highlight_key(exam_data)
+#highlight_key defines the crosstalk, i.e. shared data
+
+p <- ggplot(d, 
+            aes(x = ENGLISH, y = MATHS)) +
+  geom_point(size = 1) +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+
+gg <- highlight(ggplotly(p),
+                "plotly_selected")
+#highlight defines the brushing feature we want to implement, i.e. to highlight the selected area
+
+crosstalk::bscols(gg,
+                  DT::datatable(d),
+                  widths = 5)
+```
+
+*The following content comes as default when you create a new R Markdown document.*
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+---
 Distill is a publication format for scientific and technical writing, native to the web.
 
 Learn more about using Distill at <https://rstudio.github.io/distill>.
