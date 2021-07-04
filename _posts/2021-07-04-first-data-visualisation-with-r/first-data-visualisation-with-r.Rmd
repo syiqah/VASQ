@@ -1,5 +1,5 @@
 ---
-title: "First lesson with R"
+title: "First data visualisation with R"
 description: |
   Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph.
 author:
