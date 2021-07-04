@@ -81,6 +81,99 @@ ggplot(data = exam_data, aes(x = RACE)) +
 ```
 
 
+### How to use geom_dotplot()
+```{r}
+ggplot(data = exam_data, aes(x = MATHS)) +
+  geom_dotplot(dotsize = 0.5)
+```
+
+<br> We make some refinement with the following changes to input arguments for geom_dotplot() and scale_y_continuous().
+
+```{r}
+ggplot(data = exam_data, aes(x = MATHS)) +
+  geom_dotplot(binwidth=2.5,
+               dotsize = 0.5) +
+  scale_y_continuous(NULL,
+                     breaks = NULL)
+```
+
+### How to separate the dotplot by race
+Use the data argument "fill" in aes() as follows:
+
+```{r}
+ggplot(data = exam_data, 
+       aes(x = MATHS,
+        fill = RACE)) +
+  geom_dotplot(binwidth=2.5,
+               dotsize = 0.5) +
+  scale_y_continuous(NULL,
+                     breaks = NULL)
+```
+
+### How to define a different colour for entire graph
+Use the data argument "fill" in geom_histogram() as follows:
+
+```{r}
+ggplot(data = exam_data, 
+       aes(x = MATHS)) +
+  geom_histogram(bins = 20,
+                 color = "black", # border colour
+                 fill = "light blue")
+```
+
+### How to create stacked barchart by gender
+Use the data argument "fill" in aes() as follows:
+
+```{r}
+ggplot(data = exam_data, 
+       aes(x = MATHS,
+       fill = GENDER)) +
+  geom_histogram(bins = 20,
+                 color = "grey30")
+```
+
+Note the different impact on the graphs when data argument "fill" is used in aes() or geom_histogram().
+
+### How plot different geom objects together
+
+Note that the order of plotting the geom objects matters. Plot a geom object that covers an area first so that it does not "cover" subsequent geom objects.
+
+```{r}
+ggplot(data = exam_data, 
+       aes(x = GENDER,
+       y = MATHS)) +
+  geom_boxplot() +
+  geom_point(position = "jitter", 
+             size = 0.5)
+# jitter randomly distributes data points to have a sense of how sparse
+```
+
+### Interactive data visualisation - ggiraph methods
+ggiraph supports three types of interactivity:
+
+* Tooltip
+* Onclick
+* Data_id
+
+Generally, no changes are required to the aesthetics created on the static graph using ggplot2. However, we need to change to geom_dotplot_interactive().
+
+### How to create an interactive dotplot (tooltip)
+
+```{r}
+p <- ggplot(data = exam_data, aes(x = MATHS)) +
+  geom_dotplot_interactive(aes(tooltip = ID),
+                           stackgroups = TRUE,
+                           binwidth = 1,
+                           method = "histodot") +
+  scale_y_continuous(NULL,
+                     breaks = NULL)
+girafe(
+  ggobj = p,
+  width_svg = 6,
+  height_svg = 6*0.618
+)
+```
+
 ---
 
 Distill is a publication format for scientific and technical writing, native to the web.
