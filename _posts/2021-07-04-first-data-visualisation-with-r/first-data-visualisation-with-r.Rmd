@@ -1,0 +1,39 @@
+---
+title: "First lesson with R"
+description: |
+  Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph.
+author:
+  - name: Nurulasyiqah Md. Taha
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+date: 07-03-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+### How to install and launch R packages
+
+The following code chunk installs and launches R packages.
+
+```{r}
+packages = c('DT', 'ggiraph',
+              'plotly', 'tidyverse')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+
