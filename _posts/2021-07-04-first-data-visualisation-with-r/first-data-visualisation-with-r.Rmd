@@ -32,6 +32,57 @@ for(p in packages){
 }
 ```
 
+### How to import data
+
+The following code chunk imports a .csv datafile. Ensure that the data file (and folder) is saved in the same location (working directory) as this R Markdown document.
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+```
+
+### Comparing R Graphics and ggplot2
+R Graphics:
+
+* simpler code
+* very simple visualisation
+
+ggplot2:
+
+* longer code
+* highly customisable visualisation
+
+### Layered grammar of graphics
+These are the seven essential grammatical elements (first 3 elements are the foundation):
+
+* Data
+* Aesthetics *aes()* – How to we want to map visual att with various attributes of the data
+* Geometrics *geom_()* – Visual elements such as point, bar, line, polygons, etc.
+* Facets
+* Statistics
+* Coordinates
+* Themes
+
+### How to call the ggplot function
+Use the *data argument* as an input to call the ggplot function
+
+```{r}
+ggplot(data = exam_data)
+```
+
+### How to use aes()
+```{r}
+ggplot(data = exam_data, aes(x = MATHS))
+```
+
+### How to use geom_bar()
+```{r}
+ggplot(data = exam_data, aes(x = RACE)) +
+  geom_bar()
+```
+
+
+---
+
 Distill is a publication format for scientific and technical writing, native to the web.
 
 Learn more about using Distill at <https://rstudio.github.io/distill>.

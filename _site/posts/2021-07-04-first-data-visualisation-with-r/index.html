@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/Exam_data.csv","first-data-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","first-data-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","first-data-visualisation-with-r_files/distill-2.2.21/template.v2.js","first-data-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","first-data-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","first-data-visualisation-with-r_files/popper-2.6.0/popper.min.js","first-data-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","first-data-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","first-data-visualisation-with-r_files/tippy-6.2.7/tippy.css","first-data-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","first-data-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Exam_data.csv","first-data-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","first-data-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","first-data-visualisation-with-r_files/distill-2.2.21/template.v2.js","first-data-visualisation-with-r_files/figure-html5/unnamed-chunk-3-1.png","first-data-visualisation-with-r_files/figure-html5/unnamed-chunk-4-1.png","first-data-visualisation-with-r_files/figure-html5/unnamed-chunk-5-1.png","first-data-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","first-data-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","first-data-visualisation-with-r_files/popper-2.6.0/popper.min.js","first-data-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","first-data-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","first-data-visualisation-with-r_files/tippy-6.2.7/tippy.css","first-data-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","first-data-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2114,6 +2114,63 @@ document.addEventListener('DOMContentLoaded', function() {
 </code></pre>
 </div>
 </div>
+<h3 id="how-to-import-data">How to import data</h3>
+<p>The following code chunk imports a .csv datafile. Ensure that the data file (and folder) is saved in the same location (working directory) as this R Markdown document.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>exam_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/Exam_data.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="comparing-r-graphics-and-ggplot2">Comparing R Graphics and ggplot2</h3>
+<p>R Graphics:</p>
+<ul>
+<li>simpler code</li>
+<li>very simple visualisation</li>
+</ul>
+<p>ggplot2:</p>
+<ul>
+<li>longer code</li>
+<li>highly customisable visualisation</li>
+</ul>
+<h3 id="layered-grammar-of-graphics">Layered grammar of graphics</h3>
+<p>These are the seven essential grammatical elements (first 3 elements are the foundation):</p>
+<ul>
+<li>Data</li>
+<li>Aesthetics <em>aes()</em> – How to we want to map visual att with various attributes of the data</li>
+<li>Geometrics <em>geom_()</em> – Visual elements such as point, bar, line, polygons, etc.</li>
+<li>Facets</li>
+<li>Statistics</li>
+<li>Coordinates</li>
+<li>Themes</li>
+</ul>
+<h3 id="how-to-call-the-ggplot-function">How to call the ggplot function</h3>
+<p>Use the <em>data argument</em> as an input to call the ggplot function</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>exam_data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="first-data-visualisation-with-r_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<h3 id="how-to-use-aes">How to use aes()</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>exam_data</span>, <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>MATHS</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="first-data-visualisation-with-r_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<h3 id="how-to-use-geom_bar">How to use geom_bar()</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>exam_data</span>, <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>RACE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_bar</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="first-data-visualisation-with-r_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<hr />
 <p>Distill is a publication format for scientific and technical writing, native to the web.</p>
 <p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
