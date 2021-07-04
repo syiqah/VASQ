@@ -38,6 +38,56 @@ bgmap <- raster("data/geospatial/MC2-tourist.tif")
 bgmap
 ```
 
+### How to create a map using tmap package
+
+There are two modes of tmap - "plot" gives the static version, "view" gives the interactive version.
+
+```{r}
+tmap_mode("plot")
+tm_shape(bgmap) +
+  tm_raster(bgmap, legend.show = FALSE)
+```
+
+Note that the colors are awful because 'bgmap' layer is a three-band false colour image but tm_raster() only reads it as a single-band.
+
+```{r}
+tm_shape(bgmap) +
+tm_rgb(bgmap, r = 1, g = 2, b = 3,
+       alpha = NA,
+       saturation = 1,
+       interpolate = TRUE,
+       max.value = 255)
+```
+
+### How to import vector GIS data file
+
+```{r}
+Abila_st <- st_read(dsn = "data/Geospatial", layer = "Abila")
+```
+
+We need to ensure the projection WGS 84 is the same.
+
+### How to import gps data
+
+```{r}
+gps <- read_csv("data/aspatial/gps.csv")
+glimpse(gps)
+```
+
+Note from the glimpse that:
+
+* The timestamp is not in date-time format but in character format
+* id field should be in factor data type
+
+We use [clock package](https://www.tidyverse.org/blog/2021/03/clock-0-1-0/) to convert the timestamp format from character to m/d/Y H:M:S.
+
+```{r}
+gps$Timestamp <- date_time_parse(gps$Timestamp,
+                zone = "",
+                format = "%m/%d/%Y %H:%M:%S")
+gps
+```
+
 Distill is a publication format for scientific and technical writing, native to the web.
 
 Learn more about using Distill at <https://rstudio.github.io/distill>.

@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/aspatial/gps.csv","data/Geospatial/Abila.dbf","data/Geospatial/Abila.kml","data/Geospatial/Abila.prj","data/Geospatial/Abila.sbn","data/Geospatial/Abila.sbx","data/Geospatial/Abila.shp","data/Geospatial/Abila.shx","data/Geospatial/Kronos Island.kmz","data/Geospatial/Kronos_Island.dbf","data/Geospatial/Kronos_Island.prj","data/Geospatial/Kronos_Island.sbn","data/Geospatial/Kronos_Island.sbx","data/Geospatial/Kronos_Island.shp","data/Geospatial/Kronos_Island.shx","data/Geospatial/MC2-tourist.tif","data/Geospatial/MC2-tourist.tif.points"]}
+  {"type":"character","attributes":{},"value":["data/aspatial/gps.csv","data/Geospatial/Abila.dbf","data/Geospatial/Abila.kml","data/Geospatial/Abila.prj","data/Geospatial/Abila.sbn","data/Geospatial/Abila.sbx","data/Geospatial/Abila.shp","data/Geospatial/Abila.shx","data/Geospatial/Kronos Island.kmz","data/Geospatial/Kronos_Island.dbf","data/Geospatial/Kronos_Island.prj","data/Geospatial/Kronos_Island.sbn","data/Geospatial/Kronos_Island.sbx","data/Geospatial/Kronos_Island.shp","data/Geospatial/Kronos_Island.shx","data/Geospatial/MC2-tourist.tif","data/Geospatial/MC2-tourist.tif.points","movement-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","movement-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","movement-visualisation-with-r_files/distill-2.2.21/template.v2.js","movement-visualisation-with-r_files/figure-html5/unnamed-chunk-3-1.png","movement-visualisation-with-r_files/figure-html5/unnamed-chunk-4-1.png","movement-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","movement-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","movement-visualisation-with-r_files/popper-2.6.0/popper.min.js","movement-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","movement-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","movement-visualisation-with-r_files/tippy-6.2.7/tippy.css","movement-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","movement-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2130,9 +2130,92 @@ source     : MC2-tourist.tif
 names      : MC2.tourist 
 values     : 0, 255  (min, max)</code></pre>
 </div>
+<h3 id="how-to-create-a-map-using-tmap-package">How to create a map using tmap package</h3>
+<p>There are two modes of tmap - “plot” gives the static version, “view” gives the interactive version.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>tmap_mode</span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span>
+<span class='fu'>tm_shape</span><span class='op'>(</span><span class='va'>bgmap</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_raster</span><span class='op'>(</span><span class='va'>bgmap</span>, legend.show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="movement-visualisation-with-r_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>Note that the colors are awful because ‘bgmap’ layer is a three-band false colour image but tm_raster() only reads it as a single-band.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>tm_shape</span><span class='op'>(</span><span class='va'>bgmap</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_rgb</span><span class='op'>(</span><span class='va'>bgmap</span>, r <span class='op'>=</span> <span class='fl'>1</span>, g <span class='op'>=</span> <span class='fl'>2</span>, b <span class='op'>=</span> <span class='fl'>3</span>,
+       alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+       saturation <span class='op'>=</span> <span class='fl'>1</span>,
+       interpolate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+       max.value <span class='op'>=</span> <span class='fl'>255</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="movement-visualisation-with-r_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<h3 id="how-to-import-vector-gis-data-file">How to import vector GIS data file</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Abila_st</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span>dsn <span class='op'>=</span> <span class='st'>"data/Geospatial"</span>, layer <span class='op'>=</span> <span class='st'>"Abila"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Reading layer `Abila&#39; from data source 
+  `C:\syiqah\VASQ\_posts\2021-07-04-movement-visualisation-with-r\data\Geospatial&#39; 
+  using driver `ESRI Shapefile&#39;
+Simple feature collection with 3290 features and 9 fields
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: 24.82401 ymin: 36.04502 xmax: 24.90997 ymax: 36.09492
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+<p>We need to ensure the projection WGS 84 is the same.</p>
+<h3 id="how-to-import-gps-data">How to import gps data</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>gps</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/aspatial/gps.csv"</span><span class='op'>)</span>
+<span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 685,169
+Columns: 4
+$ Timestamp &lt;chr&gt; &quot;01/06/2014 06:28:01&quot;, &quot;01/06/2014 06:28:01&quot;, &quot;01/~
+$ id        &lt;dbl&gt; 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35~
+$ lat       &lt;dbl&gt; 36.07623, 36.07622, 36.07621, 36.07622, 36.07621, ~
+$ long      &lt;dbl&gt; 24.87469, 24.87460, 24.87444, 24.87425, 24.87417, ~</code></pre>
+</div>
+<p>Note from the glimpse that:</p>
+<ul>
+<li>The timestamp is not in date-time format but in character format</li>
+<li>id field should be in factor data type</li>
+</ul>
+<p>We use <a href="https://www.tidyverse.org/blog/2021/03/clock-0-1-0/">clock package</a> to convert the timestamp format from character to m/d/Y H:M:S.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span> <span class='op'>&lt;-</span> <span class='fu'>date_time_parse</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span>,
+                zone <span class='op'>=</span> <span class='st'>""</span>,
+                format <span class='op'>=</span> <span class='st'>"%m/%d/%Y %H:%M:%S"</span><span class='op'>)</span>
+<span class='va'>gps</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 685,169 x 4
+   Timestamp              id   lat  long
+   &lt;dttm&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 2014-01-06 06:28:01    35  36.1  24.9
+ 2 2014-01-06 06:28:01    35  36.1  24.9
+ 3 2014-01-06 06:28:03    35  36.1  24.9
+ 4 2014-01-06 06:28:05    35  36.1  24.9
+ 5 2014-01-06 06:28:06    35  36.1  24.9
+ 6 2014-01-06 06:28:07    35  36.1  24.9
+ 7 2014-01-06 06:28:09    35  36.1  24.9
+ 8 2014-01-06 06:28:10    35  36.1  24.9
+ 9 2014-01-06 06:28:11    35  36.1  24.9
+10 2014-01-06 06:28:12    35  36.1  24.9
+# ... with 685,159 more rows</code></pre>
+</div>
 <p>Distill is a publication format for scientific and technical writing, native to the web.</p>
 <p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
