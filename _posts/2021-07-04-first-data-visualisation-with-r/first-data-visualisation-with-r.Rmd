@@ -174,6 +174,106 @@ girafe(
 )
 ```
 
+
+### How to create a hover effect with data_id aesthetic
+
+On mouse hover on a student data point, the student's classmates will be highlighted.
+
+```{r}
+p <- ggplot(data = exam_data, aes(x = MATHS)) +
+  geom_dotplot_interactive(aes(data_id = CLASS),
+                           stackgroups = TRUE,
+                           binwidth = 1,
+                           method = "histodot") +
+  scale_y_continuous(NULL,
+                     breaks = NULL)
+girafe(
+  ggobj = p,
+  width_svg = 6,
+  height_svg = 6*0.618
+)
+```
+
+We can combine data_id and tooltip as follows:
+
+```{r}
+p <- ggplot(data = exam_data, aes(x = MATHS)) +
+  geom_dotplot_interactive(aes(data_id = CLASS,
+                               tooltip = CLASS),
+                           stackgroups = TRUE,
+                           binwidth = 1,
+                           method = "histodot") +
+  scale_y_continuous(NULL,
+                     breaks = NULL)
+girafe(
+  ggobj = p,
+  width_svg = 6,
+  height_svg = 6*0.618
+)
+```
+
+### How to create a hyperlink
+
+Web document link with a data object will be displayed on the web browser when clicked.
+
+```{r}
+exam_data$onclick <- sprintf("window.open(\"%s%s\")",
+"https://www.moe.gov.sg/schoolfinder?journey=Primary%20school", as.character(exam_data$ID))
+p <- ggplot(data = exam_data, aes(x = MATHS)) +
+  geom_dotplot_interactive(aes(onclick = onclick),
+                           stackgroups = TRUE,
+                           binwidth = 1,
+                           method = "histodot") +
+  scale_y_continuous(NULL,
+                     breaks = NULL)
+girafe(
+  ggobj = p,
+  width_svg = 6,
+  height_svg = 6*0.618)
+```
+
+### How to create interactive scatter plot using plot_ly()
+
+The syntax of plot_ly() is similar to ggplot. Note the curly dash in front of the field name. For more information on working with different arguments of plotly, refer to [Plotly for R](https://plotly.com/r/).
+
+```{r}
+plot_ly(data = exam_data, 
+            x = ~MATHS, 
+            y = ~ENGLISH)
+```
+
+The immediate advantage of plotly is the mouse hover toolbar on top right-hand side of the plot:
+
+* Download plot as png file
+* Box and lasso selection
+* Compare data on hover
+
+### How to work with visual variable
+
+For categorical data, different color for different categories. For numerical data, color will be on a gradient scheme.
+
+```{r}
+plot_ly(data = exam_data, 
+            x = ~ENGLISH, 
+            y = ~MATHS,
+            color = ~RACE)
+```
+
+The legend is also interactive.
+
+### How to change the colour palette
+
+The following code chunk uses ColourBrewer:
+
+```{r}
+plot_ly(data = exam_data, 
+            x = ~ENGLISH, 
+            y = ~MATHS,
+            color = ~RACE,
+            colors = "Set1")
+```
+
+
 ---
 
 Distill is a publication format for scientific and technical writing, native to the web.
