@@ -86,9 +86,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>Visual Analytics by Syiqah: Movement Visualisation with R</title>
+<title>Visual Analytics by Syiqah: First lesson with R</title>
 
-<meta property="description" itemprop="description" content="Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages."/>
+<meta property="description" itemprop="description" content="Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph."/>
 
 
 <!--  https://schema.org/Article -->
@@ -97,27 +97,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta name="article:author" content="Nurulasyiqah Md. Taha"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Visual Analytics by Syiqah: Movement Visualisation with R"/>
+<meta property="og:title" content="Visual Analytics by Syiqah: First lesson with R"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages."/>
+<meta property="og:description" content="Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Visual Analytics by Syiqah"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Visual Analytics by Syiqah: Movement Visualisation with R"/>
-<meta property="twitter:description" content="Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages."/>
+<meta property="twitter:title" content="Visual Analytics by Syiqah: First lesson with R"/>
+<meta property="twitter:description" content="Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph."/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Movement Visualisation with R"]},{"type":"character","attributes":{},"value":["Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Nurulasyiqah Md. Taha"]},{"type":"character","attributes":{},"value":["https://www.linkedin.com/in/nurulasyiqah-md-taha/"]}]}]},{"type":"character","attributes":{},"value":["07-03-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["First lesson with R"]},{"type":"character","attributes":{},"value":["Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Nurulasyiqah Md. Taha"]},{"type":"character","attributes":{},"value":["https://www.linkedin.com/in/nurulasyiqah-md-taha/"]}]}]},{"type":"character","attributes":{},"value":["07-03-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/aspatial/gps.csv","data/Geospatial/Abila.dbf","data/Geospatial/Abila.kml","data/Geospatial/Abila.prj","data/Geospatial/Abila.sbn","data/Geospatial/Abila.sbx","data/Geospatial/Abila.shp","data/Geospatial/Abila.shx","data/Geospatial/Kronos Island.kmz","data/Geospatial/Kronos_Island.dbf","data/Geospatial/Kronos_Island.prj","data/Geospatial/Kronos_Island.sbn","data/Geospatial/Kronos_Island.sbx","data/Geospatial/Kronos_Island.shp","data/Geospatial/Kronos_Island.shx","data/Geospatial/MC2-tourist.tif","data/Geospatial/MC2-tourist.tif.points","movement-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","movement-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","movement-visualisation-with-r_files/distill-2.2.21/template.v2.js","movement-visualisation-with-r_files/figure-html5/unnamed-chunk-3-1.png","movement-visualisation-with-r_files/figure-html5/unnamed-chunk-4-1.png","movement-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","movement-visualisation-with-r_files/htmlwidgets-1.5.3/htmlwidgets.js","movement-visualisation-with-r_files/jquery-1.12.4/jquery.min.js","movement-visualisation-with-r_files/leaflet-1.3.1/images/layers-2x.png","movement-visualisation-with-r_files/leaflet-1.3.1/images/layers.png","movement-visualisation-with-r_files/leaflet-1.3.1/images/marker-icon-2x.png","movement-visualisation-with-r_files/leaflet-1.3.1/images/marker-icon.png","movement-visualisation-with-r_files/leaflet-1.3.1/images/marker-shadow.png","movement-visualisation-with-r_files/leaflet-1.3.1/leaflet.css","movement-visualisation-with-r_files/leaflet-1.3.1/leaflet.js","movement-visualisation-with-r_files/leaflet-binding-2.0.4.1/leaflet.js","movement-visualisation-with-r_files/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js","movement-visualisation-with-r_files/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js","movement-visualisation-with-r_files/leafletfix-1.0.0/leafletfix.css","movement-visualisation-with-r_files/popper-2.6.0/popper.min.js","movement-visualisation-with-r_files/proj4-2.6.2/proj4.min.js","movement-visualisation-with-r_files/Proj4Leaflet-1.0.1/proj4leaflet.js","movement-visualisation-with-r_files/rstudio_leaflet-1.3.1/images/1px.png","movement-visualisation-with-r_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css","movement-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","movement-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","movement-visualisation-with-r_files/tippy-6.2.7/tippy.css","movement-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","movement-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Exam_data.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2062,7 +2062,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Movement Visualisation with R","description":"Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages.","authors":[{"author":"Nurulasyiqah Md. Taha","authorURL":"https://www.linkedin.com/in/nurulasyiqah-md-taha/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-07-03T00:00:00.000+08:00","citationText":"Taha, 2021"}
+{"title":"First lesson with R","description":"Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph.","authors":[{"author":"Nurulasyiqah Md. Taha","authorURL":"https://www.linkedin.com/in/nurulasyiqah-md-taha/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-07-03T00:00:00.000+08:00","citationText":"Taha, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2085,10 +2085,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Movement Visualisation with R</h1>
+<h1>First lesson with R</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages.</p></p>
+<p><p>Last week, we learnt how to work with R Markdown document and some packages including tidyverse, ggplot and ggiraph for data visualisation. Today, we learnt the advantages of plotly over ggiraph.</p></p>
 </div>
 
 <div class="d-byline">
@@ -2098,10 +2098,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
-<h3 id="install-and-launch-raster-sf-clock-tmap-and-tidyverse-packages-of-r">Install and launch raster, sf, clock, tmap and tidyverse packages of R</h3>
+<h3 id="how-to-install-and-launch-r-packages">How to install and launch R packages</h3>
+<p>The following code chunk installs and launches R packages.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'raster'</span>, <span class='st'>'sf'</span>, <span class='st'>'clock'</span>, <span class='st'>'tmap'</span>, <span class='st'>'tidyverse'</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'DT'</span>, <span class='st'>'ggiraph'</span>,
+              <span class='st'>'plotly'</span>, <span class='st'>'tidyverse'</span><span class='op'>)</span>
               
 <span class='kw'>for</span><span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
   <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
