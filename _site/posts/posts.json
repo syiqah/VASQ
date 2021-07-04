@@ -17,6 +17,23 @@
     "input_file": "first-data-visualisation-with-r.knit.md"
   },
   {
+    "path": "posts/2021-07-04-movement-visualisation-with-r/",
+    "title": "Movement Visualisation with R",
+    "description": "Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages.",
+    "author": [
+      {
+        "name": "Nurulasyiqah Md. Taha",
+        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
+      }
+    ],
+    "date": "2021-07-03",
+    "categories": [],
+    "contents": "\r\nInstall and launch raster, sf, clock, tmap and tidyverse packages of R\r\n\r\n\r\npackages = c('raster', 'sf', 'clock', 'tmap', 'tidyverse')\r\n              \r\nfor(p in packages){\r\n  if(!require(p, character.only = T)){\r\n    install.packages(p)\r\n  }\r\n  library(p, character.only = T)\r\n}\r\n\r\n\r\n\r\nHow to import Raster file\r\nImport the .tif file into an object, bgmap.\r\n\r\n\r\nbgmap <- raster(\"data/geospatial/MC2-tourist.tif\")\r\nbgmap\r\n\r\n\r\nclass      : RasterLayer \r\nband       : 1  (of  3  bands)\r\ndimensions : 1595, 2706, 4316070  (nrow, ncol, ncell)\r\nresolution : 3.16216e-05, 3.16216e-05  (x, y)\r\nextent     : 24.82419, 24.90976, 36.04499, 36.09543  (xmin, xmax, ymin, ymax)\r\ncrs        : +proj=longlat +datum=WGS84 +no_defs \r\nsource     : MC2-tourist.tif \r\nnames      : MC2.tourist \r\nvalues     : 0, 255  (min, max)\r\n\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-07-04T17:40:05+08:00",
+    "input_file": "movement-visualisation-with-r.knit.md"
+  },
+  {
     "path": "posts/2021-06-20-dataviz-makeover-2/",
     "title": "DataViz Makeover 2",
     "description": "To makeover the interactive data visualisation provided of Singapore’s merchandise trade from 2011 to 2020.",

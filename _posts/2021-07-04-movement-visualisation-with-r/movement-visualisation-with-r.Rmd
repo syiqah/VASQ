@@ -1,0 +1,45 @@
+---
+title: "Movement Visualisation with R"
+description: |
+  Today, we learnt how to visualise movement data using raster, sf, clock, tmap and tidyverse packages.
+author:
+  - name: Nurulasyiqah Md. Taha
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+date: 07-03-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+### Install and launch raster, sf, clock, tmap and tidyverse packages of R
+
+```{r}
+packages = c('raster', 'sf', 'clock', 'tmap', 'tidyverse')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+### How to import Raster file
+
+Import the .tif file into an object, bgmap.
+
+```{r}
+bgmap <- raster("data/geospatial/MC2-tourist.tif")
+bgmap
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+
