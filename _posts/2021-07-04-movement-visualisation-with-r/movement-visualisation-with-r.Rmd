@@ -88,8 +88,60 @@ gps$Timestamp <- date_time_parse(gps$Timestamp,
 gps
 ```
 
+```{r}
+gps1 <- gps %>%
+  filter(Timestamp < "2014-01-06 23:59:00")
+```
+
+To convert the ID field from numerical to character (factor) data type we use forcats package
+
+```{r}
+gps$id <- as_factor(gps$id)
+```
+
+### How to convert gps data into geometric simple feature data
+
+```{r}
+gps_sf <- st_as_sf(gps,
+                   coords = c("long", "lat"),
+                   crs = 4326)
+gps_sf
+```
+
+### How to create movement path from GPS points
+
+The code chunk below joins the GPS points into movement paths using the driver's ID as unique identifier.
+
+```{r}
+gps_path <- gps_sf %>%
+  group_by(id) %>%
+  summarise(m = mean(Timestamp),
+            do_union = FALSE) %>%
+  st_cast("LINESTRING") #To link the GPS points into a line
+#mean is just to 'cheat' the group_by syntax
+
+gps_path
+```
+
+### How to plot the GPS paths
+
+```{r}
+gps_path_selected <- gps_path %>%
+  filter(id==1)
+tmap_mode("view")
+tm_shape(bgmap) +
+tm_rgb(bgmap, r = 1, g = 2, b = 3,
+       alpha = NA,
+       saturation = 1,
+       interpolate = TRUE,
+       max.value = 255) +
+  tm_shape(gps_path_selected) +
+  tm_lines()
+```
+
+The thicker lines shows that that route is taken multiple times.
+
+---
 Distill is a publication format for scientific and technical writing, native to the web.
 
 Learn more about using Distill at <https://rstudio.github.io/distill>.
-
-
