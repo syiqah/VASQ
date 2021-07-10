@@ -262,3 +262,82 @@ g <- GAStech_graph %>%
 
 g + theme_graph()
 ```
+
+The output network graph is of nodes coloured by community.
+
+We can also facet by community because the community will be saved as an attribute of the node.
+
+### Build an interactive network graph with visNetwork
+
+visNetwork() uses a nodes list and edges list, different from ggraph(). To create 'from' and 'to' columns to prepare data model:
+
+```{r}
+GAStech_edges_aggregated <- GAStech_edges %>%
+  left_join(GAStech_nodes, by = c("sourceLabel" = "label")) %>%
+  rename(from = id) %>%
+  left_join(GAStech_nodes, by = c("targetLabel" = "label")) %>%
+  rename(to = id) %>%
+  filter(MainSubject == "Work related") %>%
+  group_by(from, to) %>%
+    summarise(weight = n()) %>%
+  filter(from!=to) %>%
+  filter(weight > 1) %>%
+  ungroup()
+
+```
+
+Use the code chunk below to view the interactive graph:
+
+```{r}
+visNetwork(GAStech_nodes, GAStech_edges_aggregated)
+```
+
+To keep the network static:
+
+```{r}
+visNetwork(GAStech_nodes, GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr")
+```
+
+### Working with visual attributes in visNetwork
+
+visNetwork() looks for a field called 'group'  
+
+```{r}
+GAStech_nodes <- GAStech_nodes %>%
+  rename(group = Department)
+```
+
+For visNetwork(), random seed must be defined within visLayout().
+
+```{r}
+visNetwork(GAStech_nodes, GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visLegend() %>%
+  visLayout(randomSeed = 123)
+```
+
+### Interactivity
+
+Use [visOptions()](https://datastorm-open.github.io/visNetwork/options.html) to incorporate interactivity features in the graph.
+
+```{r}
+visNetwork(GAStech_nodes, GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visOptions(highlightNearest = TRUE,
+             nodesIdSelection = TRUE) %>% #creates dropdown list to select name
+  visLegend() %>%
+  visLayout(randomSeed = 123)
+```
+
+### Data preparation to build bipartite network graph
+
+Refer to in-class notes to prepare data.  
+
+```{r}
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
