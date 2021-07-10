@@ -1,0 +1,76 @@
+---
+title: "Network graph visualisation with R"
+description: |
+  Today, we learnt how to build network graphs and introduce some interactivity.
+author:
+  - name: Nurulasyiqah Md. Taha
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+date: 07-10-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina=3,
+                      echo = TRUE, 
+                      eval = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+### Building blocks of network graph
+
+To build a network graph, the basic building blocks are "nodes" and "edges". The minimum requirements for a simple data table to build a network graph:
+
+* For node data: (unique) ID column
+* For edge data: "source" and "target" columns
+
+### Installing tidygraph, ggraph and visNetwork
+
+Use the following code chunk to check if these packages require installation: [tidygraph](https://tidygraph.data-imaginist.com/index.html), [ggraph](https://ggraph.data-imaginist.com/index.html) and [visNetwork](https://datastorm-open.github.io/visNetwork/)
+
+```{r}
+packages = c('tidygraph', 'ggraph', 'visNetwork',
+             'igraph', 'lubridate', 'clock',
+             'tidyverse')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+### Import network data from files
+
+Note that we use read_csv and not read.csv to import the files.
+
+```{r, echo=TRUE, eval=TRUE}
+GAStech_nodes <- read_csv("data/GAStech_email_node.csv")
+GAStech_edges <- read_csv("data/GAStech_email_edge-v2.csv")
+```
+
+Take a glimpse of our dataset:
+
+```{r}
+glimpse(GAStech_edges)
+```
+
+Note that SentDate is in Character data type. So we will use lubridate package to transform SentDate to Date data type in dmy format and create a new field to output "weekday".
+
+```{r}
+GAStech_edges$SentDate = dmy(GAStech_edges$SentDate)
+GAStech_edges$Weekday = wday(GAStech_edges$SentDate,
+                             label = TRUE,
+                             abbr = FALSE)
+```
+
+Take a glimpse of our transformed dataset:
+
+```{r}
+glimpse(GAStech_edges)
+```
