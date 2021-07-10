@@ -74,3 +74,191 @@ Take a glimpse of our transformed dataset:
 ```{r}
 glimpse(GAStech_edges)
 ```
+
+### Wrangling time attributes
+
+To aggregate the individual emails by date, sender, recipients, main subject and day of the week:
+
+```{r}
+GAStech_edges_aggregated <- GAStech_edges %>%
+  filter(MainSubject == "Work related") %>% #filter by only work related emails
+  group_by(source, target, Weekday) %>%
+    summarise(Weight = n()) %>% #create new field 'Weight' (for the edge)
+  filter(source!=target) %>% #to retain emails source and target not the same person
+  filter(Weight > 1) %>% #we can filter on a field that does not exist yet (Weight)
+  ungroup() #important to ungroup() so that the group_by() does not follow through to subsequent analysis
+```
+
+Take a glimpse of aggregated dataset (or in R Studio, click on Environment tab and click on Data):
+
+```{r}
+glimpse(GAStech_edges_aggregated)
+```
+
+Note that the source and target columns are the minimum requirements for a edge dataset.
+
+### Building the network graph
+
+Review reference guide for [tbl_graph()](https://tidygraph.data-imaginist.com/reference/index.html).
+
+```{r}
+GAStech_graph <- tbl_graph(nodes = GAStech_nodes,
+                           edges = GAStech_edges_aggregated,
+                           directed = TRUE)
+```
+
+Take a look at GAStech_graph structure (note that we cannot use glimpse() because the datatable of graph is complex)
+
+```{r}
+GAStech_graph
+```
+
+### Visualising network graph
+
+[ggraph](https://ggraph.data-imaginist.com/articles/Layouts.html) provides different types of network graph layouts.
+
+To plot the basic graph:
+
+```{r}
+ggraph(GAStech_graph) +
+  geom_edge_link() +
+  geom_node_point()
+```
+
+It is currently plot on x and y axis (cartesian plot).
+
+### Changing the default network graph theme
+
+Use theme_graph() to remove the cartesian plot
+
+```{r}
+g <- ggraph(GAStech_graph) +
+  geom_edge_link(aes()) +
+  geom_node_point(aes())
+
+g + theme_graph()
+```
+
+### Fruchterman and Reingold layout
+
+```{r}
+g <- ggraph(GAStech_graph,
+            layout = "fr") + #just insert the abbr of the layout
+  geom_edge_link(aes()) +
+  geom_node_point(aes())
+
+g + theme_graph()
+```
+
+### Modifying network nodes
+
+To colour each node by their respective departments:
+
+```{r}
+g <- ggraph(GAStech_graph,
+            layout = "nicely") +
+  geom_edge_link(aes()) +
+  geom_node_point(aes(colour = Department, size =3))
+
+g + theme_graph()
+```
+
+To modify the thickness of the edges by 'weight' variable:
+
+```{r}
+g <- ggraph(GAStech_graph,
+            layout = "nicely") +
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, size =2))
+
+g + theme_graph()
+```
+
+### Create facet graphs
+
+Working with facet_edges()
+
+```{r}
+set_graph_style()
+
+g <- ggraph(GAStech_graph,
+            layout = "nicely") +
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, size =2))
+
+g + facet_edges(~Weekday)
+```
+
+To move the legend to the bottom of the graph:
+
+```{r}
+set_graph_style()
+
+g <- ggraph(GAStech_graph,
+            layout = "nicely") +
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, size =2)) +
+  theme(legend.position = 'bottom')
+
+g + facet_edges(~Weekday)
+```
+
+Working with facet_nodes()
+
+```{r}
+set_graph_style()
+
+g <- ggraph(GAStech_graph,
+            layout = "nicely") +
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, size =2))
+
+g + facet_nodes(~Department) +
+  th_foreground(foreground = "grey80",
+                border = TRUE) +
+  theme(legend.position = 'bottom')
+```
+
+### Calculating centrality
+
+```{r}
+g <- GAStech_graph %>%
+  mutate(betweenness_centrality = centrality_betweenness()) %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, 
+                  size = betweenness_centrality))
+g + theme_graph()
+```
+
+We can use centrality to identify important roles within the organisation.
+
+```{r}
+g <- GAStech_graph %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department, 
+                  size = centrality_betweenness()))
+
+g + theme_graph()
+```
+
+### Visualising community
+
+```{r}
+g <- GAStech_graph %>%
+  mutate(community = as.factor(group_edge_betweenness(weights = Weight, directed = TRUE))) %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = community))
+
+g + theme_graph()
+```

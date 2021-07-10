@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/cc_data.csv","data/GAStech_email_edge-v2.csv","data/GAStech_email_edge.csv","data/GAStech_email_node.csv"]}
+  {"type":"character","attributes":{},"value":["data/cc_data.csv","data/GAStech_email_edge-v2.csv","data/GAStech_email_edge.csv","data/GAStech_email_node.csv","network-graph-visualisation-with-r_files/anchor/anchor.min.js","network-graph-visualisation-with-r_files/bowser/bowser.min.js","network-graph-visualisation-with-r_files/distill/template.v2.js","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-10-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-11-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-12-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-13-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-14-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-15-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-16-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-17-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-18-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-19-1.png","network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-20-1.png","network-graph-visualisation-with-r_files/header-attrs/header-attrs.js","network-graph-visualisation-with-r_files/jquery/jquery.min.js","network-graph-visualisation-with-r_files/popper/popper.min.js","network-graph-visualisation-with-r_files/tippy/tippy-bundle.umd.min.js","network-graph-visualisation-with-r_files/tippy/tippy-light-border.css","network-graph-visualisation-with-r_files/tippy/tippy.css","network-graph-visualisation-with-r_files/tippy/tippy.umd.min.js","network-graph-visualisation-with-r_files/webcomponents/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2175,7 +2175,240 @@ $ sourceLabel &lt;chr&gt; &quot;Sven.Flecha&quot;, &quot;Sven.Flecha&quot;, &quo
 $ targetLabel &lt;chr&gt; &quot;Isak.Baza&quot;, &quot;Lucas.Alcazar&quot;, &quot;Felix.Resumir&quot;, &quot;~
 $ Weekday     &lt;ord&gt; Monday, Monday, Monday, Monday, Monday, Monday, ~</code></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="wrangling-time-attributes">Wrangling time attributes</h3>
+<p>To aggregate the individual emails by date, sender, recipients, main subject and day of the week:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>GAStech_edges_aggregated</span> <span class='op'>&lt;-</span> <span class='va'>GAStech_edges</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>MainSubject</span> <span class='op'>==</span> <span class='st'>"Work related"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'>#filter by only work related emails</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>source</span>, <span class='va'>target</span>, <span class='va'>Weekday</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>summarise</span><span class='op'>(</span>Weight <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'>#create new field 'Weight' (for the edge)</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>source</span><span class='op'>!=</span><span class='va'>target</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'>#to retain emails source and target not the same person</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Weight</span> <span class='op'>&gt;</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'>#we can filter on a field that does not exist yet (Weight)</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span> <span class='co'>#important to ungroup() so that the group_by() does not follow through to subsequent analysis</span>
+</code></pre>
+</div>
+</div>
+<p>Take a glimpse of aggregated dataset (or in R Studio, click on Environment tab and click on Data):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>GAStech_edges_aggregated</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,456
+Columns: 4
+$ source  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+$ target  &lt;dbl&gt; 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6~
+$ Weekday &lt;ord&gt; Monday, Tuesday, Wednesday, Friday, Monday, Tuesday,~
+$ Weight  &lt;int&gt; 4, 3, 5, 8, 4, 3, 5, 8, 4, 3, 5, 8, 4, 3, 5, 8, 4, 3~</code></pre>
+</div>
+<p>Note that the source and target columns are the minimum requirements for a edge dataset.</p>
+<h3 id="building-the-network-graph">Building the network graph</h3>
+<p>Review reference guide for <a href="https://tidygraph.data-imaginist.com/reference/index.html">tbl_graph()</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>GAStech_graph</span> <span class='op'>&lt;-</span> <span class='fu'>tbl_graph</span><span class='op'>(</span>nodes <span class='op'>=</span> <span class='va'>GAStech_nodes</span>,
+                           edges <span class='op'>=</span> <span class='va'>GAStech_edges_aggregated</span>,
+                           directed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Take a look at GAStech_graph structure (note that we cannot use glimpse() because the datatable of graph is complex)</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>GAStech_graph</span>
+</code></pre>
+</div>
+<pre><code># A tbl_graph: 54 nodes and 1456 edges
+#
+# A directed multigraph with 1 component
+#
+# Node Data: 54 x 4 (active)
+     id label            Department     Title                         
+  &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;                         
+1     1 Mat.Bramar       Administration Assistant to CEO              
+2     2 Anda.Ribera      Administration Assistant to CFO              
+3     3 Rachel.Pantanal  Administration Assistant to CIO              
+4     4 Linda.Lagos      Administration Assistant to COO              
+5     5 Ruscella.Mies.H~ Administration Assistant to Engineering Grou~
+6     6 Carla.Forluniau  Administration Assistant to IT Group Manager 
+# ... with 48 more rows
+#
+# Edge Data: 1,456 x 4
+   from    to Weekday   Weight
+  &lt;int&gt; &lt;int&gt; &lt;ord&gt;      &lt;int&gt;
+1     1     2 Monday         4
+2     1     2 Tuesday        3
+3     1     2 Wednesday      5
+# ... with 1,453 more rows</code></pre>
+</div>
+<h3 id="visualising-network-graph">Visualising network graph</h3>
+<p><a href="https://ggraph.data-imaginist.com/articles/Layouts.html">ggraph</a> provides different types of network graph layouts.</p>
+<p>To plot the basic graph:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>It is currently plot on x and y axis (cartesian plot).</p>
+<h3 id="changing-the-default-network-graph-theme">Changing the default network graph theme</h3>
+<p>Use theme_graph() to remove the cartesian plot</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+</div>
+<h3 id="fruchterman-and-reingold-layout">Fruchterman and Reingold layout</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>"fr"</span><span class='op'>)</span> <span class='op'>+</span> <span class='co'>#just insert the abbr of the layout</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<h3 id="modifying-network-nodes">Modifying network nodes</h3>
+<p>To colour each node by their respective departments:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>"nicely"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, size <span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+</div>
+<p>To modify the thickness of the edges by ‘weight’ variable:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>"nicely"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, size <span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+</div>
+<h3 id="create-facet-graphs">Create facet graphs</h3>
+<p>Working with facet_edges()</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>set_graph_style</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>"nicely"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, size <span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>facet_edges</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Weekday</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<p>To move the legend to the bottom of the graph:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>set_graph_style</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>"nicely"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, size <span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>'bottom'</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>facet_edges</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Weekday</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+</div>
+<p>Working with facet_nodes()</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>set_graph_style</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>GAStech_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>"nicely"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, size <span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>facet_nodes</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Department</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>th_foreground</span><span class='op'>(</span>foreground <span class='op'>=</span> <span class='st'>"grey80"</span>,
+                border <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>'bottom'</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-17-1.png" width="624" /></p>
+</div>
+<h3 id="calculating-centrality">Calculating centrality</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>GAStech_graph</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>betweenness_centrality <span class='op'>=</span> <span class='fu'>centrality_betweenness</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggraph</span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>"fr"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, 
+                 alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, 
+                  size <span class='op'>=</span> <span class='va'>betweenness_centrality</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+</div>
+<p>We can use centrality to identify important roles within the organisation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>GAStech_graph</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggraph</span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>"fr"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Department</span>, 
+                  size <span class='op'>=</span> <span class='fu'>centrality_betweenness</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<h3 id="visualising-community">Visualising community</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>GAStech_graph</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>community <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'>group_edge_betweenness</span><span class='op'>(</span>weights <span class='op'>=</span> <span class='va'>Weight</span>, directed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggraph</span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>"fr"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width<span class='op'>=</span><span class='va'>Weight</span><span class='op'>)</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>community</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
