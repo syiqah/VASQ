@@ -1,0 +1,24 @@
+---
+title: "Text visualisation with R"
+description: |
+  Today, we learnt how to visualise text (unstructured) data.
+author:
+  - name: Nurulasyiqah Md. Taha
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+date: 07-11-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina=3,
+                      echo = TRUE, 
+                      eval = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+### Installing and launching R packages
