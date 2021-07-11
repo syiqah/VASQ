@@ -28,9 +28,9 @@
     ],
     "date": "2021-07-11",
     "categories": [],
-    "contents": "\r\nInstalling and launching R packages\r\n\r\n\r\n\r\n",
+    "contents": "\r\nInstalling and launching R packages\r\n\r\n\r\npackages = c('tidytext', 'tidyverse', 'dplyr', 'ggraph',\r\n             'widyr', 'wordcloud', 'ggwordcloud', 'DT',\r\n             'textplot', 'lubridate', 'hms', 'tidygraph',\r\n             'igraph')\r\n              \r\nfor(p in packages){\r\n  if(!require(p, character.only = T)){\r\n    install.packages(p)\r\n  }\r\n  library(p, character.only = T)\r\n}\r\n\r\n\r\n\r\nData preparation\r\nWe will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data.\r\nOnce raw data have been uploaded, raw data should be deleted.\r\nImport multiple text files from multiple folders\r\nStep 1: Create a folder list\r\n\r\n\r\nnews20 <- \"data/20news/\"\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-07-11T21:43:53+08:00",
+    "last_modified": "2021-07-11T22:01:01+08:00",
     "input_file": "text-visualisation-with-r.knit.md"
   },
   {

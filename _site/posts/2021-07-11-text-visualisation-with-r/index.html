@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["text-visualisation-with-r_files/anchor/anchor.min.js","text-visualisation-with-r_files/bowser/bowser.min.js","text-visualisation-with-r_files/distill/template.v2.js","text-visualisation-with-r_files/header-attrs/header-attrs.js","text-visualisation-with-r_files/jquery/jquery.min.js","text-visualisation-with-r_files/popper/popper.min.js","text-visualisation-with-r_files/tippy/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy/tippy-light-border.css","text-visualisation-with-r_files/tippy/tippy.css","text-visualisation-with-r_files/tippy/tippy.umd.min.js","text-visualisation-with-r_files/webcomponents/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2099,6 +2099,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="d-article">
 <h3 id="installing-and-launching-r-packages">Installing and launching R packages</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'tidytext'</span>, <span class='st'>'tidyverse'</span>, <span class='st'>'dplyr'</span>, <span class='st'>'ggraph'</span>,
+             <span class='st'>'widyr'</span>, <span class='st'>'wordcloud'</span>, <span class='st'>'ggwordcloud'</span>, <span class='st'>'DT'</span>,
+             <span class='st'>'textplot'</span>, <span class='st'>'lubridate'</span>, <span class='st'>'hms'</span>, <span class='st'>'tidygraph'</span>,
+             <span class='st'>'igraph'</span><span class='op'>)</span>
+              
+<span class='kw'>for</span><span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<h3 id="data-preparation">Data preparation</h3>
+<p>We will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data.</p>
+<p>Once raw data have been uploaded, raw data should be deleted.</p>
+<h3 id="import-multiple-text-files-from-multiple-folders">Import multiple text files from multiple folders</h3>
+<p><strong>Step 1</strong>: Create a folder list</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>news20</span> <span class='op'>&lt;-</span> <span class='st'>"data/20news/"</span>
+</code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

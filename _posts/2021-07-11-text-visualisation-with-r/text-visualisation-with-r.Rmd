@@ -22,3 +22,32 @@ knitr::opts_chunk$set(fig.retina=3,
 ```
 
 ### Installing and launching R packages
+
+
+```{r}
+packages = c('tidytext', 'tidyverse', 'dplyr', 'ggraph',
+             'widyr', 'wordcloud', 'ggwordcloud', 'DT',
+             'textplot', 'lubridate', 'hms', 'tidygraph',
+             'igraph')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+### Data preparation
+
+We will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data. 
+
+Once raw data have been uploaded, raw data should be deleted.
+
+### Import multiple text files from multiple folders
+
+**Step 1**: Create a folder list
+
+```{r}
+news20 <- "data/20news/"
+```
