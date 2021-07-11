@@ -150,7 +150,7 @@ g <- ggraph(GAStech_graph,
 g + theme_graph()
 ```
 
-### Modifying network nodes
+### Modifying network nodes and edges
 
 To colour each node by their respective departments:
 
@@ -177,7 +177,13 @@ g + theme_graph()
 
 ### Create facet graphs
 
-Working with facet_edges()
+There are three functions in ggraph to implement faceting:
+
+* [facet_nodes()](https://ggraph.data-imaginist.com/reference/facet_nodes.html) - edges are only drawn in a panel if both terminal nodes are present
+* [facet_edges()](https://ggraph.data-imaginist.com/reference/facet_edges.html) - nodes are always drawn in all panels even if the node data contains an attribute named the same as the one used for the edge faceting
+* [facet_graph()](https://ggraph.data-imaginist.com/reference/facet_graph.html) - faceting on two variables simultaneously.
+
+Working with facet_edges():
 
 ```{r}
 set_graph_style()
@@ -206,6 +212,22 @@ g <- ggraph(GAStech_graph,
 g + facet_edges(~Weekday)
 ```
 
+To add a frame to each graph:
+
+```{r}
+set_graph_style() 
+g <- ggraph(GAStech_graph, 
+            layout = "nicely") + 
+  geom_edge_link(aes(width=Weight), alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department), size = 2)
+
+g + facet_edges(~Weekday) +
+  th_foreground(foreground = "grey80",  
+                border = TRUE) +
+  theme(legend.position = 'bottom')
+```
+
 Working with facet_nodes()
 
 ```{r}
@@ -225,6 +247,10 @@ g + facet_nodes(~Department) +
 
 ### Calculating centrality
 
+We can use centrality to identify important roles within the organisation.
+
+Use mutate() of dplyr to calculate a new column, "betweenness_centrality", and centrality_betweenness() of tidygraph as the algorithm.
+
 ```{r}
 g <- GAStech_graph %>%
   mutate(betweenness_centrality = centrality_betweenness()) %>%
@@ -237,7 +263,7 @@ g <- GAStech_graph %>%
 g + theme_graph()
 ```
 
-We can use centrality to identify important roles within the organisation.
+Since centrality measures can be accessed directly in ggraph calls, we actually don't need to precompute (using mutate())and store derived node and edge centrality measures on the graph in order to use them in a plot. We can call the algorithm directly as follows:
 
 ```{r}
 g <- GAStech_graph %>%
@@ -250,7 +276,11 @@ g <- GAStech_graph %>%
 g + theme_graph()
 ```
 
+The preceding two graphs look a little different because we did not set a random seed.
+
 ### Visualising community
+
+tidygraph package inherits many of the [community detection](https://tidygraph.data-imaginist.com/reference/group_graph.html) algorithms imbedded into igraph.
 
 ```{r}
 g <- GAStech_graph %>%
@@ -269,7 +299,15 @@ We can also facet by community because the community will be saved as an attribu
 
 ### Build an interactive network graph with visNetwork
 
-visNetwork() uses a nodes list and edges list, different from ggraph(). To create 'from' and 'to' columns to prepare data model:
+visNetwork() uses a nodes list and edges list, different from ggraph():
+
+* The nodes list must include an "ID" column, and the edge list must have "from" and "to" columns.
+* The function also plots the labels for the nodes, using the names of the actors from the "label" column in the node list.
+
+To create 'from' and 'to' columns to prepare the data set, use the following code chunk to:
+
+* Join GAStech_edges and GAStech_nodes data tables
+* Rename the columns
 
 ```{r}
 GAStech_edges_aggregated <- GAStech_edges %>%
