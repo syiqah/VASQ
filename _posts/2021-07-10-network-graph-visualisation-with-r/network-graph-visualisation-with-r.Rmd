@@ -330,14 +330,14 @@ Use the code chunk below to view the interactive graph:
 visNetwork(GAStech_nodes, GAStech_edges_aggregated)
 ```
 
-To keep the network static:
+To keep the network static, use [Igraph](http://datastorm-open.github.io/visNetwork/igraph.html) layout:
 
 ```{r}
 visNetwork(GAStech_nodes, GAStech_edges_aggregated) %>%
   visIgraphLayout(layout = "layout_with_fr")
 ```
 
-### Working with visual attributes in visNetwork
+### Working with visual attributes (nodes) in visNetwork
 
 visNetwork() looks for a field called 'group'  
 
@@ -355,6 +355,24 @@ visNetwork(GAStech_nodes, GAStech_edges_aggregated) %>%
   visLayout(randomSeed = 123)
 ```
 
+### Working with visual attributes (edges) in visNetwork
+
+In the code chunk below:
+
+* The argument arrows is used to define where to place the arrow.
+* The smooth argument is used to plot the edges using a smooth curve.
+
+```{r}
+visNetwork(GAStech_nodes,
+           GAStech_edges_aggregated) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visEdges(arrows = "to", 
+           smooth = list(enabled = TRUE, 
+                         type = "curvedCW")) %>%
+  visLegend() %>%
+  visLayout(randomSeed = 123)
+```
+
 ### Interactivity
 
 Use [visOptions()](https://datastorm-open.github.io/visNetwork/options.html) to incorporate interactivity features in the graph.
@@ -368,13 +386,115 @@ visNetwork(GAStech_nodes, GAStech_edges_aggregated) %>%
   visLayout(randomSeed = 123)
 ```
 
-### Data preparation to build bipartite network graph
+### Build a bipartite network graph
 
-Refer to in-class notes to prepare data.  
+**Step 1**: Data preparation 
 
 ```{r}
+cc_data <- read_csv("data/cc_data.csv")
+
+glimpse(cc_data)
+```
+
+Note that the timestamp field is in character format and not in date-time format.
+
+**Step 2**: Transform the data
+
+```{r}
+#Transform values in timestamp field into correct date-time format
+cc_data$timestamp <- date_time_parse(cc_data$timestamp,
+                                      zone = "",
+                                      format = "%m/%d/%Y %H:%M")
+
+#Transform values in last4ccnum field to character data type
+cc_data$last4ccnum <- as.character(cc_data$last4ccnum)
+
+#Derive a day-of-month field from timestamp
+cc_data$Day  = get_day(cc_data$timestamp)
+
+#Derive a hour-of-day field from timestamp
+cc_data$Hour = get_hour(cc_data$timestamp)
+```
+
+**Step 3**: Create nodes list
+
+```{r}
+#To get distinct card users from the “last4ccnum” column
+sources <- cc_data %>%
+  distinct(last4ccnum) %>%
+  rename(label = last4ccnum)
+
+#To get distinct locations from "location" column
+destinations <- cc_data %>%
+  distinct(location) %>%
+  rename(label = location)
+
+#To create a single dataframe
+cc_nodes <- full_join(sources, destinations, by = "label")
+
+#To add an “ID” column to the nodes data frame
+cc_nodes <- cc_nodes %>% 
+  rowid_to_column("id")
+
+cc_nodes
+```
+
+**Step 4**: Create edges list
+
+```{r}
+edges <- cc_data %>%
+  #to deal with 2 ID columns
+  group_by(last4ccnum, location, Day, Hour) %>%
+  #to create a weight column representing no. of letters sent between each set of nodes
+  summarise(weight = n()) %>% 
+  ungroup()
+
+edges
+```
+
+**Step 5**: Tidying up edges list
+
+```{r}
+#To rename to 'from' column
+cc_edges <- edges %>% 
+  left_join(cc_nodes, by = c("last4ccnum" = "label")) %>% 
+  rename(from = id)
+
+#To rename to 'to' column
+cc_edges <- cc_edges %>% 
+  left_join(cc_nodes, by = c("location" = "label")) %>% 
+  rename(to = id)
+
+#To reorder the columns to bring “from” and “to” to the left of the data frame
+cc_edges <- select(cc_edges, from, to, Day, Hour, weight)
+
+cc_edges
 
 ```
+
+**Step 6**: Build the network graph data object using tbl_graph()
+
+```{r}
+cc_graph <- tbl_graph(nodes = cc_nodes, 
+                      edges = cc_edges, 
+                      directed = FALSE)
+
+cc_graph
+
+```
+
+**Step 7**: Create the network graph
+
+```{r}
+ggraph(cc_graph, 
+       layout = "lgl") +
+  geom_edge_link(aes()) +
+  geom_node_point(aes()) +
+  theme_graph()
+```
+
+
+---
 
 ## R Markdown
 
