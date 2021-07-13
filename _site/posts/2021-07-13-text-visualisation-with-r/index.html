@@ -117,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/rds/news20.rds","text-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","text-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","text-visualisation-with-r_files/distill-2.2.21/template.v2.js","text-visualisation-with-r_files/figure-html5/unnamed-chunk-6-1.png","text-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","text-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","text-visualisation-with-r_files/popper-2.6.0/popper.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","text-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/rds/news20.rds","text-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","text-visualisation-with-r_files/anchor/anchor.min.js","text-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","text-visualisation-with-r_files/bowser/bowser.min.js","text-visualisation-with-r_files/distill-2.2.21/template.v2.js","text-visualisation-with-r_files/distill/template.v2.js","text-visualisation-with-r_files/figure-html5/unnamed-chunk-6-1.png","text-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","text-visualisation-with-r_files/header-attrs/header-attrs.js","text-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","text-visualisation-with-r_files/jquery/jquery.min.js","text-visualisation-with-r_files/popper-2.6.0/popper.min.js","text-visualisation-with-r_files/popper/popper.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","text-visualisation-with-r_files/tippy/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy/tippy-light-border.css","text-visualisation-with-r_files/tippy/tippy.css","text-visualisation-with-r_files/tippy/tippy.umd.min.js","text-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js","text-visualisation-with-r_files/webcomponents/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2183,7 +2183,49 @@ $ text      &lt;chr&gt; &quot;From: salem@pangea.Stanford.EDU (Bruce Salem)&quot
 </div>
 <p><img src="text-visualisation-with-r_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="cleaning-text-data">Cleaning text data</h3>
+<p><strong>Step 1</strong>: To remove header and automatic email signatures</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cleaned_text</span> <span class='op'>&lt;-</span> <span class='va'>raw_text</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>newsgroup</span>, <span class='va'>id</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>text</span> <span class='op'>==</span> <span class='st'>""</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>,
+         <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>text</span>, <span class='st'>"^--"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'>#to detect string based on your defined pattern</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>In RStudio “Environment” tab, click on cleaned_text to skim through what needs to be removed next.</p>
+<p><strong>Step 2</strong>: Remove lines with nested text representing quotes from other users.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cleaned_text</span> <span class='op'>&lt;-</span> <span class='va'>cleaned_text</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>text</span>, <span class='st'>"^[^&gt;]+[A-Za-z\\d]"</span><span class='op'>)</span>
+         <span class='op'>|</span> <span class='va'>text</span> <span class='op'>==</span> <span class='st'>""</span>,
+         <span class='op'>!</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>text</span>, <span class='st'>"writes(:|\\.\\.\\.)$"</span><span class='op'>)</span>,
+         <span class='op'>!</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>text</span>, <span class='st'>"^In article &lt;"</span><span class='op'>)</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Note that no. of observations reduced to 4,449.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>cleaned_text</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 4,449
+Columns: 3
+$ newsgroup &lt;chr&gt; &quot;alt.atheism&quot;, &quot;alt.atheism&quot;, &quot;alt.atheism&quot;, &quot;alt.~
+$ id        &lt;chr&gt; &quot;54256&quot;, &quot;54256&quot;, &quot;54256&quot;, &quot;54256&quot;, &quot;54256&quot;, &quot;5425~
+$ text      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;\tAs I don&#39;t know this book, I will use y~</code></pre>
+</div>
+<p>You need to clean the text further because if you glimpse at cleaned_text, text is still dirty.</p>
+<p>Refer to <a href="https://stringr.tidyverse.org/articles/regular-expressions.html">stringr regular expressions</a> for ideas on patterns to define strings to remove.</p>
+<h3 id="text-data-processing">Text data processing</h3>
+<p>Use <a href="https://www.rdocumentation.org/packages/tidytext/versions/0.3.1/topics/unnest_tokens">unnest_tokens()</a> to split dataset into tokens and <a href="https://rdrr.io/cran/tidytext/man/stop_words.html">stop_words()</a> to remove stop-words.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

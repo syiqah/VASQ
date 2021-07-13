@@ -100,3 +100,44 @@ raw_text %>%
   geom_col(fill = "lightblue") +
   labs(y = NULL)
 ```
+
+
+### Cleaning text data
+
+**Step 1**: To remove header and automatic email signatures
+
+```{r}
+cleaned_text <- raw_text %>%
+  group_by(newsgroup, id) %>%
+  filter(cumsum(text == "") > 0,
+         cumsum(str_detect(text, "^--")) == 0) %>%
+  #to detect string based on your defined pattern
+  ungroup()
+```
+
+In RStudio "Environment" tab, click on cleaned_text to skim through what needs to be removed next.
+
+**Step 2**: Remove lines with nested text representing quotes from other users.
+
+```{r}
+cleaned_text <- cleaned_text %>%
+  filter(str_detect(text, "^[^>]+[A-Za-z\\d]")
+         | text == "",
+         !str_detect(text, "writes(:|\\.\\.\\.)$"),
+         !str_detect(text, "^In article <")
+  )
+```
+
+Note that no. of observations reduced to 4,449.
+
+```{r}
+glimpse(cleaned_text)
+```
+
+You need to clean the text further because if you glimpse at cleaned_text, text is still dirty.
+
+Refer to [stringr regular expressions](https://stringr.tidyverse.org/articles/regular-expressions.html) for ideas on patterns to define strings to remove.
+
+### Text data processing
+
+Use [unnest_tokens()](https://www.rdocumentation.org/packages/tidytext/versions/0.3.1/topics/unnest_tokens) to split dataset into tokens and [stop_words()](https://rdrr.io/cran/tidytext/man/stop_words.html) to remove stop-words.
