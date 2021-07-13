@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/rds/news20.rds","text-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","text-visualisation-with-r_files/anchor/anchor.min.js","text-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","text-visualisation-with-r_files/bowser/bowser.min.js","text-visualisation-with-r_files/distill-2.2.21/template.v2.js","text-visualisation-with-r_files/distill/template.v2.js","text-visualisation-with-r_files/figure-html5/unnamed-chunk-6-1.png","text-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","text-visualisation-with-r_files/header-attrs/header-attrs.js","text-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","text-visualisation-with-r_files/jquery/jquery.min.js","text-visualisation-with-r_files/popper-2.6.0/popper.min.js","text-visualisation-with-r_files/popper/popper.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","text-visualisation-with-r_files/tippy/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy/tippy-light-border.css","text-visualisation-with-r_files/tippy/tippy.css","text-visualisation-with-r_files/tippy/tippy.umd.min.js","text-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js","text-visualisation-with-r_files/webcomponents/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/rds/news20.rds","text-visualisation-with-r_files/anchor-4.2.2/anchor.min.js","text-visualisation-with-r_files/anchor/anchor.min.js","text-visualisation-with-r_files/bowser-1.9.3/bowser.min.js","text-visualisation-with-r_files/bowser/bowser.min.js","text-visualisation-with-r_files/distill-2.2.21/template.v2.js","text-visualisation-with-r_files/distill/template.v2.js","text-visualisation-with-r_files/figure-html5/unnamed-chunk-14-1.png","text-visualisation-with-r_files/figure-html5/unnamed-chunk-15-1.png","text-visualisation-with-r_files/figure-html5/unnamed-chunk-6-1.png","text-visualisation-with-r_files/header-attrs-2.9/header-attrs.js","text-visualisation-with-r_files/header-attrs/header-attrs.js","text-visualisation-with-r_files/jquery-1.11.3/jquery.min.js","text-visualisation-with-r_files/jquery/jquery.min.js","text-visualisation-with-r_files/popper-2.6.0/popper.min.js","text-visualisation-with-r_files/popper/popper.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy-6.2.7/tippy-light-border.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.css","text-visualisation-with-r_files/tippy-6.2.7/tippy.umd.min.js","text-visualisation-with-r_files/tippy/tippy-bundle.umd.min.js","text-visualisation-with-r_files/tippy/tippy-light-border.css","text-visualisation-with-r_files/tippy/tippy.css","text-visualisation-with-r_files/tippy/tippy.umd.min.js","text-visualisation-with-r_files/webcomponents-2.0.0/webcomponents.js","text-visualisation-with-r_files/webcomponents/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1605,7 +1605,96 @@ $ text      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;\tAs I don&#39;t know 
 <p>Refer to <a href="https://stringr.tidyverse.org/articles/regular-expressions.html">stringr regular expressions</a> for ideas on patterns to define strings to remove.</p>
 <h3 id="text-data-processing">Text data processing</h3>
 <p>Use <a href="https://www.rdocumentation.org/packages/tidytext/versions/0.3.1/topics/unnest_tokens">unnest_tokens()</a> to split dataset into tokens and <a href="https://rdrr.io/cran/tidytext/man/stop_words.html">stop_words()</a> to remove stop-words.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>usenet_words</span> <span class='op'>&lt;-</span> <span class='va'>cleaned_text</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unnest_tokens</span><span class='op'>(</span><span class='va'>word</span>, <span class='va'>text</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>word</span>, <span class='st'>"[a-z']$"</span><span class='op'>)</span>,
+         <span class='op'>!</span><span class='va'>word</span> <span class='op'>%in%</span> <span class='va'>stop_words</span><span class='op'>$</span><span class='va'>word</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Note that no. of observations increased to 11,825 because now we are looking at words instead of article lines.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>usenet_words</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 11,825
+Columns: 3
+$ newsgroup &lt;chr&gt; &quot;alt.atheism&quot;, &quot;alt.atheism&quot;, &quot;alt.atheism&quot;, &quot;alt.~
+$ id        &lt;chr&gt; &quot;54256&quot;, &quot;54256&quot;, &quot;54256&quot;, &quot;54256&quot;, &quot;54256&quot;, &quot;5425~
+$ word      &lt;chr&gt; &quot;book&quot;, &quot;heresay&quot;, &quot;depends&quot;, &quot;defines&quot;, &quot;god&quot;, &quot;u~</code></pre>
+</div>
+<p>You still need to look through the text data and clean further words.</p>
+<h3 id="exploring-common-words">Exploring common words</h3>
+<p>Before we create a word cloud, we can calculate the word distribution from the entire tokenised dataset.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>usenet_words</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>count</span><span class='op'>(</span><span class='va'>word</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 5,542 x 2
+   word           n
+   &lt;chr&gt;      &lt;int&gt;
+ 1 people        57
+ 2 time          50
+ 3 jesus         47
+ 4 god           44
+ 5 message       40
+ 6 br            27
+ 7 bible         23
+ 8 drive         23
+ 9 homosexual    23
+10 read          22
+# ... with 5,532 more rows</code></pre>
+</div>
+<p>Alternatively, we can count words within each newsgroup.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>words_by_newsgroup</span> <span class='op'>&lt;-</span> <span class='va'>usenet_words</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>count</span><span class='op'>(</span><span class='va'>newsgroup</span>, <span class='va'>word</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='co'>#count generates n column and sort in descending order</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>words_by_newsgroup</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 8,124
+Columns: 3
+$ newsgroup &lt;chr&gt; &quot;alt.atheism&quot;, &quot;sci.crypt&quot;, &quot;alt.atheism&quot;, &quot;alt.at~
+$ word      &lt;chr&gt; &quot;jesus&quot;, &quot;message&quot;, &quot;br&quot;, &quot;rh&quot;, &quot;pad&quot;, &quot;homosexual~
+$ n         &lt;int&gt; 39, 31, 27, 21, 20, 20, 19, 18, 17, 17, 16, 16, 15~</code></pre>
+</div>
+<h3 id="visualising-common-words-using-wordcloud">Visualising common words using wordcloud()</h3>
+<p>Use the following code chunk:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>wordcloud</span><span class='op'>(</span><span class='va'>words_by_newsgroup</span><span class='op'>$</span><span class='va'>word</span>,
+          <span class='va'>words_by_newsgroup</span><span class='op'>$</span><span class='va'>n</span>,
+          max.words <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="text-visualisation-with-r_files/figure-html5/unnamed-chunk-14-1.png" width="624" /></p>
+</div>
+<p>A DT table can be used to complement the wordcloud above.</p>
+<h3 id="visualising-common-words-using-wordcloud-1">Visualising common words using wordcloud()</h3>
+<p>We can also plot wordcloud using <a href="https://lepennec.github.io/ggwordcloud/articles/ggwordcloud.html">ggwordcloud</a> package under ggplot so that we can facet by newsgroup.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1234</span><span class='op'>)</span>
+
+<span class='va'>words_by_newsgroup</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>n</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>label <span class='op'>=</span> <span class='va'>word</span>, size <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_text_wordcloud</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>newsgroup</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="text-visualisation-with-r_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

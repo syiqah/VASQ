@@ -141,3 +141,65 @@ Refer to [stringr regular expressions](https://stringr.tidyverse.org/articles/re
 ### Text data processing
 
 Use [unnest_tokens()](https://www.rdocumentation.org/packages/tidytext/versions/0.3.1/topics/unnest_tokens) to split dataset into tokens and [stop_words()](https://rdrr.io/cran/tidytext/man/stop_words.html) to remove stop-words.
+
+```{r}
+usenet_words <- cleaned_text %>%
+  unnest_tokens(word, text) %>%
+  filter(str_detect(word, "[a-z']$"),
+         !word %in% stop_words$word)
+```
+
+Note that no. of observations increased to 11,825 because now we are looking at words instead of article lines.
+
+```{r}
+glimpse(usenet_words)
+```
+
+You still need to look through the text data and clean further words.
+
+### Exploring common words
+
+Before we create a word cloud, we can calculate the word distribution from the entire tokenised dataset.
+
+```{r}
+usenet_words %>%
+  count(word, sort = TRUE)
+```
+
+Alternatively, we can count words within each newsgroup.
+
+```{r}
+words_by_newsgroup <- usenet_words %>%
+  count(newsgroup, word, sort = TRUE) %>% #count generates n column and sort in descending order
+  ungroup()
+
+glimpse(words_by_newsgroup)
+```
+
+### Visualising common words using wordcloud()
+
+Use the following code chunk:
+
+```{r}
+wordcloud(words_by_newsgroup$word,
+          words_by_newsgroup$n,
+          max.words = 300)
+```
+
+A DT table can be used to complement the wordcloud above.
+
+### Visualising common words using wordcloud()
+
+We can also plot wordcloud using [ggwordcloud](https://lepennec.github.io/ggwordcloud/articles/ggwordcloud.html) package under ggplot so that we can facet by newsgroup.
+
+```{r}
+set.seed(1234)
+
+words_by_newsgroup %>%
+  filter(n > 0) %>%
+ggplot(aes(label = word, size = n)) +
+  geom_text_wordcloud() +
+  theme_minimal() +
+  facet_wrap(~newsgroup)
+```
+
