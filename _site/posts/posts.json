@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-07-13-text-visualisation-with-r/",
+    "title": "Text visualisation with R",
+    "description": "Yesterday, we learnt how to visualise text (unstructured) data.",
+    "author": [
+      {
+        "name": "Nurulasyiqah Md. Taha",
+        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
+      }
+    ],
+    "date": "2021-07-12",
+    "categories": [],
+    "contents": "\r\nInstalling and launching R packages\r\n\r\n\r\npackages = c('tidytext', 'tidyverse', 'dplyr', 'ggraph',\r\n             'widyr', 'wordcloud', 'ggwordcloud', 'DT',\r\n             'textplot', 'lubridate', 'hms', 'tidygraph',\r\n             'igraph')\r\n              \r\nfor(p in packages){\r\n  if(!require(p, character.only = T)){\r\n    install.packages(p)\r\n  }\r\n  library(p, character.only = T)\r\n}\r\n\r\n\r\n\r\nData preparation\r\nWe will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data.\r\nOne raw data have been uploaded, raw data should be deleted.\r\nImport multiple text files from multiple folders\r\nStep 1: Create a folder list\r\n\r\n\r\nnews20 <- \"data/20news/\"\r\n\r\n\r\n\r\nStep 2: Define a function to read all files from a folder into a data frame\r\n\r\n\r\nread_folder <- function(infolder) { #writing a function\r\n  tibble(file = dir(infolder,\r\n                    full.names = TRUE)) %>%\r\n    mutate(text = map(file,\r\n                      read_lines)) %>%\r\n    transmute(id = basename(file),\r\n              text) %>%\r\n    unnest(text)\r\n}\r\n\r\n\r\n\r\nNote that we don’t use if-loop function to look through the files, but “infolder” function. It is similar to writing a R code - nothing will happen till we run Step 3.\r\nStep 3: Reading all messages from the 20news folder\r\n\r\n\r\nraw_text <- tibble(folder = dir(news20, full.names = TRUE)) %>%\r\n  mutate(folder_out = map(folder, read_folder)) %>%\r\n  unnest(cols = c(folder_out)) %>%\r\n  transmute(newsgroup = basename(folder), id, text)\r\nwrite_rds(raw_text,\"data/rds/news20.rds\") #output a consolidated data set of raw text in .rds format\r\n\r\n\r\n\r\nNote that no. of observations is 7,601.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-07-13T10:53:32+08:00",
+    "input_file": "text-visualisation-with-r.knit.md"
+  },
+  {
     "path": "posts/2021-07-10-network-graph-visualisation-with-r/",
     "title": "Network graph visualisation with R",
     "description": "Today, we learnt how to build network graphs and introduce some interactivity.",
@@ -15,23 +32,6 @@
     "preview": "posts/2021-07-10-network-graph-visualisation-with-r/network-graph-visualisation-with-r_files/figure-html5/unnamed-chunk-10-1.png",
     "last_modified": "2021-07-11T18:39:46+08:00",
     "input_file": "network-graph-visualisation-with-r.knit.md"
-  },
-  {
-    "path": "posts/2021-07-11-text-visualisation-with-r/",
-    "title": "Text visualisation with R",
-    "description": "Today, we learnt how to visualise text (unstructured) data.",
-    "author": [
-      {
-        "name": "Nurulasyiqah Md. Taha",
-        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
-      }
-    ],
-    "date": "2021-07-11",
-    "categories": [],
-    "contents": "\r\nInstalling and launching R packages\r\n\r\n\r\npackages = c('tidytext', 'tidyverse', 'dplyr', 'ggraph',\r\n             'widyr', 'wordcloud', 'ggwordcloud', 'DT',\r\n             'textplot', 'lubridate', 'hms', 'tidygraph',\r\n             'igraph')\r\n              \r\nfor(p in packages){\r\n  if(!require(p, character.only = T)){\r\n    install.packages(p)\r\n  }\r\n  library(p, character.only = T)\r\n}\r\n\r\n\r\n\r\nData preparation\r\nWe will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data.\r\nOnce raw data have been uploaded, raw data should be deleted.\r\nImport multiple text files from multiple folders\r\nStep 1: Create a folder list\r\n\r\n\r\nnews20 <- \"data/20news/\"\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
-    "preview": {},
-    "last_modified": "2021-07-11T22:01:01+08:00",
-    "input_file": "text-visualisation-with-r.knit.md"
   },
   {
     "path": "posts/2021-07-04-first-data-visualisation-with-r/",

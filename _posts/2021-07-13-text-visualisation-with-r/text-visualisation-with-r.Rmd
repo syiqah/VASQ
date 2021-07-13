@@ -1,0 +1,82 @@
+---
+title: "Text visualisation with R"
+description: |
+  Yesterday, we learnt how to visualise text (unstructured) data.
+author:
+  - name: Nurulasyiqah Md. Taha
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+date: 07-12-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina=3,
+                      echo = TRUE, 
+                      eval = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+### Installing and launching R packages
+
+```{r}
+packages = c('tidytext', 'tidyverse', 'dplyr', 'ggraph',
+             'widyr', 'wordcloud', 'ggwordcloud', 'DT',
+             'textplot', 'lubridate', 'hms', 'tidygraph',
+             'igraph')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+### Data preparation
+
+We will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data. 
+
+One raw data have been uploaded, raw data should be deleted.
+
+### Import multiple text files from multiple folders
+
+**Step 1**: Create a folder list
+
+```{r eval=FALSE}
+news20 <- "data/20news/"
+```
+
+**Step 2**: Define a function to read all files from a folder into a data frame
+
+```{r eval=FALSE}
+read_folder <- function(infolder) { #writing a function
+  tibble(file = dir(infolder,
+                    full.names = TRUE)) %>%
+    mutate(text = map(file,
+                      read_lines)) %>%
+    transmute(id = basename(file),
+              text) %>%
+    unnest(text)
+}
+```
+
+Note that we don't use if-loop function to look through the files, but "infolder" function. It is similar to writing a R code - nothing will happen till we run Step 3.
+
+**Step 3**: Reading all messages from the 20news folder
+
+```{r eval=FALSE}
+raw_text <- tibble(folder = dir(news20, full.names = TRUE)) %>%
+  mutate(folder_out = map(folder, read_folder)) %>%
+  unnest(cols = c(folder_out)) %>%
+  transmute(newsgroup = basename(folder), id, text)
+write_rds(raw_text,"data/rds/news20.rds") #output a consolidated data set of raw text in .rds format
+```
+
+Note that no. of observations is 7,601.
+
+
