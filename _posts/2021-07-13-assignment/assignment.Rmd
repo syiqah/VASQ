@@ -1,0 +1,46 @@
+---
+title: "Assignment"
+description: |
+  To use visual analytics to detect anomalies and suspicious behavior in movement and tracking data.
+author:
+  - name: Nurulasyiqah Md. Taha
+    url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
+date: 07-13-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina=3,
+                      echo = FALSE, 
+                      eval = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+## 1. Introduction
+
+## 2. Objective
+
+## 3. Literature review
+
+### 3.1 Previous work
+
+### 3.2 R packages
+
+## 4. Data preparation
+
+## 5. Visual analysis
+
+### 5.1 
+
+### 5.2
+
+### 5.3
+
+### 5.4
+
+### 5.5

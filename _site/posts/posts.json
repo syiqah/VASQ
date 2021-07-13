@@ -17,6 +17,23 @@
     "input_file": "text-visualisation-with-r.knit.md"
   },
   {
+    "path": "posts/2021-07-13-assignment/",
+    "title": "Assignment",
+    "description": "To use visual analytics to detect anomalies and suspicious behavior in movement and tracking data.",
+    "author": [
+      {
+        "name": "Nurulasyiqah Md. Taha",
+        "url": "https://www.linkedin.com/in/nurulasyiqah-md-taha/"
+      }
+    ],
+    "date": "2021-07-13",
+    "categories": [],
+    "contents": "\r\n1. Introduction\r\n2. Objective\r\n3. Literature review\r\n3.1 Previous work\r\n3.2 R packages\r\n4. Data preparation\r\n5. Visual analysis\r\n5.1\r\n5.2\r\n5.3\r\n5.4\r\n5.5\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-07-13T18:23:04+08:00",
+    "input_file": "assignment.knit.md"
+  },
+  {
     "path": "posts/2021-07-10-network-graph-visualisation-with-r/",
     "title": "Network graph visualisation with R",
     "description": "Today, we learnt how to build network graphs and introduce some interactivity.",
