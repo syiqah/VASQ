@@ -1,7 +1,7 @@
 ---
 title: "Text visualisation with R"
 description: |
-  A short description of the post.
+  Yesterday, we learnt how to visualise text (unstructured) data.
 author:
   - name: Nurulasyiqah Md. Taha
     url: https://www.linkedin.com/in/nurulasyiqah-md-taha/
@@ -13,11 +13,90 @@ output:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(fig.retina=3,
+                      echo = TRUE, 
+                      eval = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+### Installing and launching R packages
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+```{r}
+packages = c('tidytext', 'tidyverse', 'dplyr', 'ggraph',
+             'widyr', 'wordcloud', 'ggwordcloud', 'DT',
+             'textplot', 'lubridate', 'hms', 'tidygraph',
+             'igraph')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
 
+### Data preparation
 
+We will work with multiple folders containing multiple text files (documents) and learn how to extract and manipulate text data. 
+
+One raw data have been uploaded, raw data should be deleted.
+
+### Import multiple text files from multiple folders
+
+**Step 1**: Create a folder list
+
+```{r eval=FALSE}
+news20 <- "data/20news/"
+```
+
+**Step 2**: Define a function to read all files from a folder into a data frame
+
+```{r eval=FALSE}
+read_folder <- function(infolder) { #writing a function
+  tibble(file = dir(infolder,
+                    full.names = TRUE)) %>%
+    mutate(text = map(file,
+                      read_lines)) %>%
+    transmute(id = basename(file),
+              text) %>%
+    unnest(text)
+}
+```
+
+Note that we don't use if-loop function to look through the files, but "infolder" function. It is similar to writing a R code - nothing will happen till we run Step 3.
+
+**Step 3**: Reading all messages from the 20news folder
+
+```{r eval=FALSE}
+raw_text <- tibble(folder = dir(news20, full.names = TRUE)) %>%
+  mutate(folder_out = map(folder, read_folder)) %>%
+  unnest(cols = c(folder_out)) %>%
+  transmute(newsgroup = basename(folder), id, text)
+write_rds(raw_text,"data/rds/news20.rds") #output a consolidated data set of raw text in .rds format
+```
+
+Note that no. of observations is 7,601.
+
+```{r}
+raw_text <- read_rds("data/rds/news20.rds")
+
+glimpse(raw_text)
+```
+
+We should now delete all the raw data folders.
+
+### Initial EDA
+
+To check that all raw text have been written into rds:
+
+```{r}
+raw_text %>%
+  group_by(newsgroup) %>%
+  summarise(messages = n_distinct(id)) %>% #count the unique article ID
+  ggplot(aes(messages, newsgroup)) +
+#x-axis is no of articles, y-axis is the different news outlets
+  geom_col(fill = "lightblue") +
+  labs(y = NULL)
+```
