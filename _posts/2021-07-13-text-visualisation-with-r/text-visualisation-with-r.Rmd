@@ -79,4 +79,22 @@ write_rds(raw_text,"data/rds/news20.rds") #output a consolidated data set of raw
 
 Note that no. of observations is 7,601.
 
+```{r}
+glimpse(raw_text)
+```
 
+We can now delete all the raw data ("20news" folder).
+
+### Initial EDA
+
+To check that all raw text have been written into rds:
+
+```{r}
+raw_text %>%
+  group_by(newsgroup) %>%
+  summarise(messages = n_distinct(id)) %>% #count the unique article ID
+  ggplot(aes(messages, newsgroup)) +
+#x-axis is no of articles, y-axis is the different news outlets
+  geom_col(fill = "lightblue") +
+  labs(y = NULL)
+```
