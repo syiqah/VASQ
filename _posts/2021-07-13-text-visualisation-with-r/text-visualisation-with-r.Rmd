@@ -183,12 +183,12 @@ Use the following code chunk:
 ```{r}
 wordcloud(words_by_newsgroup$word,
           words_by_newsgroup$n,
-          max.words = 300)
+          max.words = 150)
 ```
 
-A DT table can be used to complement the wordcloud above.
+A [dynamic data table](https://vasq.netlify.app/posts/2021-07-04-first-data-visualisation-with-r/#how-to-create-an-interactive-data-table) can be used to complement the wordcloud above.
 
-### Visualising common words using wordcloud()
+### Visualising common words using ggwordcloud()
 
 We can also plot wordcloud using [ggwordcloud](https://lepennec.github.io/ggwordcloud/articles/ggwordcloud.html) package under ggplot so that we can facet by newsgroup.
 
@@ -196,10 +196,47 @@ We can also plot wordcloud using [ggwordcloud](https://lepennec.github.io/ggword
 set.seed(1234)
 
 words_by_newsgroup %>%
-  filter(n > 0) %>%
+  filter(n > 50) %>%
 ggplot(aes(label = word, size = n)) +
   geom_text_wordcloud() +
   theme_minimal() +
   facet_wrap(~newsgroup)
 ```
 
+### Visualising TF-IDF
+
+**Step 1**: Compute tf-idf within newsgroups
+
+If a word appears in more documents, it doesn't necessarily mean that it is more important.
+
+Use the following code chunk to perform inverse document frequency and group by newsgroup:
+
+```{r}
+tf_idf <- words_by_newsgroup %>%
+  bind_tf_idf(word, newsgroup, n) %>%
+  arrange(desc(tf-idf))
+```
+
+**Step 2**: Visualising tf-idf as an interactive table
+
+```{r}
+DT::datatable(tf_idf, filter = 'top') %>% #to insert filter box at the top
+  formatRound(columns = c('tf', 'idf', 'tf_idf'),
+              digits = 3) %>% #round up to 3 dp
+  formatStyle(0, target = 'row', lineHeight='25%') #reduce until 25%
+```
+
+**Step 3**: Use facet barcharts technique to visualise the tf-idf values of sci-related newsgroups.
+
+```{r}
+tf_idf %>%
+  filter(str_detect(newsgroup, "^sci\\.")) %>% #to look for all newsgroups with 'sci'
+  group_by(newsgroup) %>%
+  slice_max(tf_idf, n = 12) %>%
+  ungroup() %>%
+  mutate(word = reorder(word, tf_idf)) %>%
+  ggplot(aes(tf_idf, word, fill = newsgroup)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ newsgroup, scales = "free") + #x-axis scale of each graph not standardised
+  labs(x = "tf-idf", y = NULL) #all 
+```
