@@ -15,7 +15,7 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(fig.retina=3,
-                      echo = FALSE, 
+                      echo = TRUE, 
                       eval = TRUE,
                       message = FALSE,
                       warning = FALSE)
@@ -34,7 +34,7 @@ To get to the bottom of this mystery, we will use visual analytic techniques to 
 
 ## 2. Objective
 
-The objective of this project is to use visual analytic techniques to surface and identify anomalies and suspicious behavior. 
+The objective of this assignment is to use visual analytic techniques in purely R to surface and identify anomalies and suspicious behavior. 
 
 ## 3. Literature review
 
@@ -66,6 +66,149 @@ We browsed the [R Graph Gallery](https://www.r-graph-gallery.com/index.html) for
 
 ### 4.1 Data cleaning
 
+**Install and launch R packages**
+
+The following code chunk installs and launches the R packages we will use for data visualisation and analysis in this assignment.
+
+```{r}
+packages = c('DT', 'ggiraph', 'plotly', 'tidyverse',
+             'raster', 'sf', 'clock', 'tmap', 'mapview',
+             'tidygraph', 'ggraph', 'visNetwork',
+             'igraph', 'lubridate', 'clock')
+              
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+**Import data files provided**
+
+The following code chunk imports the four comma-separated values (.csv) data files provided for this Mini-Challenge - car-assignments.csv, cc_data.csv, gps.csv and loyalty_data.csv. The "data" folder containing the four data files is saved in the same location (working directory) as the R Markdown document to publish this webpage.
+
+```{r}
+car_assign<- read_csv("data/car-assignments.csv")
+credit_card<- read_csv("data/cc_data.csv")
+gps <- read_csv("data/gps.csv")
+loyalty_card <- read_csv("data/loyalty_data.csv")
+```
+
+Take a glimpse of the "credit_card" dataset with the following code:
+
+```{r}
+glimpse(credit_card)
+```
+
+We need to change the "timestamp" column from character data type to date data type in m/d/Y H:M:S format and extract the "hour_of_day" and "day_of_week" for analysis later. We need to also change the "last4ccnum" column from numerical data type to character data type and rename it to "cc_id".
+
+```{r}
+credit_card$date <- date_time_parse(credit_card$timestamp,
+                                             zone = "",
+                                             format = "%m/%d/%Y")
+
+credit_card$timestamp <- date_time_parse(credit_card$timestamp,
+                                         zone = "",
+                                         format = "%m/%d/%Y %H:%M")
+
+credit_card$hour_of_day <- get_hour(credit_card$timestamp)
+
+credit_card$day_of_week <- wday(credit_card$timestamp, label = TRUE, abbr = FALSE)
+
+credit_card$last4ccnum <- as_factor(credit_card$last4ccnum)
+
+credit_card <- credit_card %>%
+  rename(cc_id = last4ccnum)
+
+```
+
+The cleaned version of "credit_card" dataset is as follows:
+
+```{r}
+glimpse(credit_card)
+```
+
+Next, we take a glimpse of the "loyalty_card" dataset with the following code:
+
+```{r}
+glimpse(loyalty_card)
+```
+
+We need to change the "timestamp" column from character data type to date data type in m/d/Y format and extract the "day_of_week" for analysis later.
+
+```{r}
+loyalty_card <- loyalty_card %>%
+  mutate(timestamp = date_time_parse(timestamp,
+                                     zone = "",
+                                     format = "%m/%d/%Y")) %>%
+  rename(date = timestamp)
+
+loyalty_card$day_of_week <- wday(loyalty_card$date,
+                               label = TRUE,
+                               abbr = FALSE)
+```
+
+The cleaned version of "loyalty_card" dataset is as follows:
+
+```{r}
+glimpse(loyalty_card)
+```
+
+Next, we take a glimpse of the "gps" dataset with the following code:
+
+```{r}
+glimpse(gps)
+```
+
+We need to change the "Timestamp" column from character data type to date data type in m/d/Y H:M:S format and extract the "hour_of_day" and "day_of_week" for analysis later. We need to also change the "id" column from numerical data type to character data type and rename it to "CarID".
+
+```{r}
+gps$date <- date_time_parse(gps$Timestamp,
+                            zone = "",
+                            format = "%m/%d/%Y")
+
+gps$Timestamp <- date_time_parse(gps$Timestamp,
+                                 zone = "",
+                                 format = "%m/%d/%Y %H:%M")
+
+gps$hour_of_day <- get_hour(gps$Timestamp)
+
+gps$day_of_week <- wday(gps$Timestamp, label = TRUE, abbr = FALSE)
+
+gps$id <- as_factor(gps$id)
+
+gps <- gps %>%
+  rename(CarID = id)
+```
+
+The cleaned version of "gps" dataset is as follows:
+
+```{r}
+glimpse(gps)
+```
+
+Next, we take a glimpse of the "car_assign" dataset with the following code:
+
+```{r}
+glimpse(car_assign)
+```
+
+We need to also change the "CarID" column from numerical data type to character data type. We will also concatenate the "LastName" and "FirstName" of the employee into "EmployeeName".
+
+```{r}
+car_assign$CarID <- as_factor(car_assign$CarID)
+
+car_assign <- car_assign %>%
+  unite(EmployeeName, c("FirstName", "LastName"), sep = " ")
+```
+
+The cleaned version of "car_assign" dataset is as follows:
+
+```{r}
+glimpse(car_assign)
+```
+  
 ### 4.2 Geo-referencing
 
 As the Abila, Kronos, tourist map image file provided (MC2-tourist.jpg) does not have coordinates projection, we need to perform geo-referencing. We used a geographic information system software, [QGIS](https://www.qgis.org/en/site/index.html), to geo-reference the image file with the Abila shapefile (in WGS84 coordinates) to obtain a geo-referenced tourist map (MC2-tourist.tif).
@@ -74,14 +217,158 @@ As the Abila, Kronos, tourist map image file provided (MC2-tourist.jpg) does not
 
 ### 5.1 Using just the credit and loyalty card data, identify the most popular locations, and when they are popular. What anomalies do you see? What corrections would you recommend to correct these anomalies?
 
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
 
 ### 5.2 Add the vehicle data to your analysis of the credit and loyalty card data. How does your assessment of the anomalies in question 1 change based on this new data? What discrepancies between vehicle, credit, and loyalty card data do you find?
 
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
 ### 5.3 Can you infer the owners of each credit card and loyalty card? What is your evidence? Where are there uncertainties in your method? Where are there uncertainties in the data?
 
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
 
 ### 5.4 Given the data sources provided, identify potential informal or unofficial relationships among GASTech personnel. Provide evidence for these relationships.
 
 
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
 ### 5.5 Do you see evidence of suspicious activity? Identify 1- 10 locations where you believe the suspicious activity is occurring, and why.
 
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```

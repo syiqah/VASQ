@@ -2107,7 +2107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>Movement and tracking data from GAStech’s company cars which have GPS tracking.</li>
 </ul>
 <h2 id="objective">2. Objective</h2>
-<p>The objective of this project is to use visual analytic techniques to surface and identify anomalies and suspicious behavior.</p>
+<p>The objective of this assignment is to use visual analytic techniques in purely R to surface and identify anomalies and suspicious behavior.</p>
 <h2 id="literature-review">3. Literature review</h2>
 <h3 id="previous-work">3.1 Previous work</h3>
 <p>Since VAST Challenge 2021 is a redux of <a href="http://visualdata.wustl.edu/varepository/VAST%20Challenge%202014/challenges/MC2%20-%20Patterns%20of%20Life%20Analysis/"><strong>VAST Challenge 2014</strong></a> with some variation, modified data and new questions, we reviewed past submissions for Mini-Challenge 2 for some inspiration on tackling this year’s challenge.</p>
@@ -2125,15 +2125,300 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 id="r-packages">3.3 R packages</h3>
 <h2 id="data-preparation">4. Data preparation</h2>
 <h3 id="data-cleaning">4.1 Data cleaning</h3>
+<p><strong>Install and launch R packages</strong></p>
+<p>The following code chunk installs and launches the R packages we will use for data visualisation and analysis in this assignment.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'DT'</span>, <span class='st'>'ggiraph'</span>, <span class='st'>'plotly'</span>, <span class='st'>'tidyverse'</span>,
+             <span class='st'>'raster'</span>, <span class='st'>'sf'</span>, <span class='st'>'clock'</span>, <span class='st'>'tmap'</span>, <span class='st'>'mapview'</span>,
+             <span class='st'>'tidygraph'</span>, <span class='st'>'ggraph'</span>, <span class='st'>'visNetwork'</span>,
+             <span class='st'>'igraph'</span>, <span class='st'>'lubridate'</span>, <span class='st'>'clock'</span><span class='op'>)</span>
+              
+<span class='kw'>for</span><span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p><strong>Import data files provided</strong></p>
+<p>The following code chunk imports the four comma-separated values (.csv) data files provided for this Mini-Challenge - car-assignments.csv, cc_data.csv, gps.csv and loyalty_data.csv. The “data” folder containing the four data files is saved in the same location (working directory) as the R Markdown document to publish this webpage.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>car_assign</span><span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/car-assignments.csv"</span><span class='op'>)</span>
+<span class='va'>credit_card</span><span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/cc_data.csv"</span><span class='op'>)</span>
+<span class='va'>gps</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/gps.csv"</span><span class='op'>)</span>
+<span class='va'>loyalty_card</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/loyalty_data.csv"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Take a glimpse of the “credit_card” dataset with the following code:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,490
+Columns: 4
+$ timestamp  &lt;chr&gt; &quot;01/06/2014 07:28&quot;, &quot;01/06/2014 07:34&quot;, &quot;01/06/20~
+$ location   &lt;chr&gt; &quot;Brew&#39;ve Been Served&quot;, &quot;Hallowed Grounds&quot;, &quot;Brew&#39;~
+$ price      &lt;dbl&gt; 11.34, 52.22, 8.33, 16.72, 4.24, 4.17, 28.73, 9.6~
+$ last4ccnum &lt;dbl&gt; 4795, 7108, 6816, 9617, 7384, 5368, 7253, 4948, 9~</code></pre>
+</div>
+<p>We need to change the “timestamp” column from character data type to date data type in m/d/Y H:M:S format and extract the “hour_of_day” and “day_of_week” for analysis later. We need to also change the “last4ccnum” column from numerical data type to character data type and rename it to “cc_id”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>credit_card</span><span class='op'>$</span><span class='va'>date</span> <span class='op'>&lt;-</span> <span class='fu'>date_time_parse</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>$</span><span class='va'>timestamp</span>,
+                                             zone <span class='op'>=</span> <span class='st'>""</span>,
+                                             format <span class='op'>=</span> <span class='st'>"%m/%d/%Y"</span><span class='op'>)</span>
+
+<span class='va'>credit_card</span><span class='op'>$</span><span class='va'>timestamp</span> <span class='op'>&lt;-</span> <span class='fu'>date_time_parse</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>$</span><span class='va'>timestamp</span>,
+                                         zone <span class='op'>=</span> <span class='st'>""</span>,
+                                         format <span class='op'>=</span> <span class='st'>"%m/%d/%Y %H:%M"</span><span class='op'>)</span>
+
+<span class='va'>credit_card</span><span class='op'>$</span><span class='va'>hour_of_day</span> <span class='op'>&lt;-</span> <span class='fu'>get_hour</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>$</span><span class='va'>timestamp</span><span class='op'>)</span>
+
+<span class='va'>credit_card</span><span class='op'>$</span><span class='va'>day_of_week</span> <span class='op'>&lt;-</span> <span class='fu'>wday</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>$</span><span class='va'>timestamp</span>, label <span class='op'>=</span> <span class='cn'>TRUE</span>, abbr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='va'>credit_card</span><span class='op'>$</span><span class='va'>last4ccnum</span> <span class='op'>&lt;-</span> <span class='fu'>as_factor</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>$</span><span class='va'>last4ccnum</span><span class='op'>)</span>
+
+<span class='va'>credit_card</span> <span class='op'>&lt;-</span> <span class='va'>credit_card</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>cc_id <span class='op'>=</span> <span class='va'>last4ccnum</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The cleaned version of “credit_card” dataset is as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>credit_card</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,490
+Columns: 7
+$ timestamp   &lt;dttm&gt; 2014-01-06 07:28:00, 2014-01-06 07:34:00, 2014-~
+$ location    &lt;chr&gt; &quot;Brew&#39;ve Been Served&quot;, &quot;Hallowed Grounds&quot;, &quot;Brew~
+$ price       &lt;dbl&gt; 11.34, 52.22, 8.33, 16.72, 4.24, 4.17, 28.73, 9.~
+$ cc_id       &lt;fct&gt; 4795, 7108, 6816, 9617, 7384, 5368, 7253, 4948, ~
+$ date        &lt;dttm&gt; 2014-01-06, 2014-01-06, 2014-01-06, 2014-01-06,~
+$ hour_of_day &lt;int&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, ~
+$ day_of_week &lt;ord&gt; Monday, Monday, Monday, Monday, Monday, Monday, ~</code></pre>
+</div>
+<p>Next, we take a glimpse of the “loyalty_card” dataset with the following code:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>loyalty_card</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,392
+Columns: 4
+$ timestamp  &lt;chr&gt; &quot;01/06/2014&quot;, &quot;01/06/2014&quot;, &quot;01/06/2014&quot;, &quot;01/06/~
+$ location   &lt;chr&gt; &quot;Brew&#39;ve Been Served&quot;, &quot;Brew&#39;ve Been Served&quot;, &quot;Ha~
+$ price      &lt;dbl&gt; 4.17, 9.60, 16.53, 11.51, 12.93, 4.27, 11.20, 15.~
+$ loyaltynum &lt;chr&gt; &quot;L2247&quot;, &quot;L9406&quot;, &quot;L8328&quot;, &quot;L6417&quot;, &quot;L1107&quot;, &quot;L40~</code></pre>
+</div>
+<p>We need to change the “timestamp” column from character data type to date data type in m/d/Y format and extract the “day_of_week” for analysis later.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>loyalty_card</span> <span class='op'>&lt;-</span> <span class='va'>loyalty_card</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>timestamp <span class='op'>=</span> <span class='fu'>date_time_parse</span><span class='op'>(</span><span class='va'>timestamp</span>,
+                                     zone <span class='op'>=</span> <span class='st'>""</span>,
+                                     format <span class='op'>=</span> <span class='st'>"%m/%d/%Y"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>date <span class='op'>=</span> <span class='va'>timestamp</span><span class='op'>)</span>
+
+<span class='va'>loyalty_card</span><span class='op'>$</span><span class='va'>day_of_week</span> <span class='op'>&lt;-</span> <span class='fu'>wday</span><span class='op'>(</span><span class='va'>loyalty_card</span><span class='op'>$</span><span class='va'>date</span>,
+                               label <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                               abbr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The cleaned version of “loyalty_card” dataset is as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>loyalty_card</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 1,392
+Columns: 5
+$ date        &lt;dttm&gt; 2014-01-06, 2014-01-06, 2014-01-06, 2014-01-06,~
+$ location    &lt;chr&gt; &quot;Brew&#39;ve Been Served&quot;, &quot;Brew&#39;ve Been Served&quot;, &quot;H~
+$ price       &lt;dbl&gt; 4.17, 9.60, 16.53, 11.51, 12.93, 4.27, 11.20, 15~
+$ loyaltynum  &lt;chr&gt; &quot;L2247&quot;, &quot;L9406&quot;, &quot;L8328&quot;, &quot;L6417&quot;, &quot;L1107&quot;, &quot;L4~
+$ day_of_week &lt;ord&gt; Monday, Monday, Monday, Monday, Monday, Monday, ~</code></pre>
+</div>
+<p>Next, we take a glimpse of the “gps” dataset with the following code:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 685,169
+Columns: 4
+$ Timestamp &lt;chr&gt; &quot;01/06/2014 06:28:01&quot;, &quot;01/06/2014 06:28:01&quot;, &quot;01/~
+$ id        &lt;dbl&gt; 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35~
+$ lat       &lt;dbl&gt; 36.07623, 36.07622, 36.07621, 36.07622, 36.07621, ~
+$ long      &lt;dbl&gt; 24.87469, 24.87460, 24.87444, 24.87425, 24.87417, ~</code></pre>
+</div>
+<p>We need to change the “Timestamp” column from character data type to date data type in m/d/Y H:M:S format and extract the “hour_of_day” and “day_of_week” for analysis later. We need to also change the “id” column from numerical data type to character data type and rename it to “CarID”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>gps</span><span class='op'>$</span><span class='va'>date</span> <span class='op'>&lt;-</span> <span class='fu'>date_time_parse</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span>,
+                            zone <span class='op'>=</span> <span class='st'>""</span>,
+                            format <span class='op'>=</span> <span class='st'>"%m/%d/%Y"</span><span class='op'>)</span>
+
+<span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span> <span class='op'>&lt;-</span> <span class='fu'>date_time_parse</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span>,
+                                 zone <span class='op'>=</span> <span class='st'>""</span>,
+                                 format <span class='op'>=</span> <span class='st'>"%m/%d/%Y %H:%M"</span><span class='op'>)</span>
+
+<span class='va'>gps</span><span class='op'>$</span><span class='va'>hour_of_day</span> <span class='op'>&lt;-</span> <span class='fu'>get_hour</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span><span class='op'>)</span>
+
+<span class='va'>gps</span><span class='op'>$</span><span class='va'>day_of_week</span> <span class='op'>&lt;-</span> <span class='fu'>wday</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>$</span><span class='va'>Timestamp</span>, label <span class='op'>=</span> <span class='cn'>TRUE</span>, abbr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='va'>gps</span><span class='op'>$</span><span class='va'>id</span> <span class='op'>&lt;-</span> <span class='fu'>as_factor</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>$</span><span class='va'>id</span><span class='op'>)</span>
+
+<span class='va'>gps</span> <span class='op'>&lt;-</span> <span class='va'>gps</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>CarID <span class='op'>=</span> <span class='va'>id</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The cleaned version of “gps” dataset is as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>gps</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 685,169
+Columns: 7
+$ Timestamp   &lt;dttm&gt; 2014-01-06 06:28:00, 2014-01-06 06:28:00, 2014-~
+$ CarID       &lt;fct&gt; 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, ~
+$ lat         &lt;dbl&gt; 36.07623, 36.07622, 36.07621, 36.07622, 36.07621~
+$ long        &lt;dbl&gt; 24.87469, 24.87460, 24.87444, 24.87425, 24.87417~
+$ date        &lt;dttm&gt; 2014-01-06, 2014-01-06, 2014-01-06, 2014-01-06,~
+$ hour_of_day &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, ~
+$ day_of_week &lt;ord&gt; Monday, Monday, Monday, Monday, Monday, Monday, ~</code></pre>
+</div>
+<p>Next, we take a glimpse of the “car_assign” dataset with the following code:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>car_assign</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 44
+Columns: 5
+$ LastName               &lt;chr&gt; &quot;Calixto&quot;, &quot;Azada&quot;, &quot;Balas&quot;, &quot;Barranc~
+$ FirstName              &lt;chr&gt; &quot;Nils&quot;, &quot;Lars&quot;, &quot;Felix&quot;, &quot;Ingrid&quot;, &quot;I~
+$ CarID                  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12~
+$ CurrentEmploymentType  &lt;chr&gt; &quot;Information Technology&quot;, &quot;Engineerin~
+$ CurrentEmploymentTitle &lt;chr&gt; &quot;IT Helpdesk&quot;, &quot;Engineer&quot;, &quot;Engineer&quot;~</code></pre>
+</div>
+<p>We need to also change the “CarID” column from numerical data type to character data type. We will also concatenate the “LastName” and “FirstName” of the employee into “EmployeeName”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>car_assign</span><span class='op'>$</span><span class='va'>CarID</span> <span class='op'>&lt;-</span> <span class='fu'>as_factor</span><span class='op'>(</span><span class='va'>car_assign</span><span class='op'>$</span><span class='va'>CarID</span><span class='op'>)</span>
+
+<span class='va'>car_assign</span> <span class='op'>&lt;-</span> <span class='va'>car_assign</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unite</span><span class='op'>(</span><span class='va'>EmployeeName</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FirstName"</span>, <span class='st'>"LastName"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>" "</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The cleaned version of “car_assign” dataset is as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>glimpse</span><span class='op'>(</span><span class='va'>car_assign</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 44
+Columns: 4
+$ EmployeeName           &lt;chr&gt; &quot;Nils Calixto&quot;, &quot;Lars Azada&quot;, &quot;Felix ~
+$ CarID                  &lt;fct&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12~
+$ CurrentEmploymentType  &lt;chr&gt; &quot;Information Technology&quot;, &quot;Engineerin~
+$ CurrentEmploymentTitle &lt;chr&gt; &quot;IT Helpdesk&quot;, &quot;Engineer&quot;, &quot;Engineer&quot;~</code></pre>
+</div>
 <h3 id="geo-referencing">4.2 Geo-referencing</h3>
 <p>As the Abila, Kronos, tourist map image file provided (MC2-tourist.jpg) does not have coordinates projection, we need to perform geo-referencing. We used a geographic information system software, <a href="https://www.qgis.org/en/site/index.html">QGIS</a>, to geo-reference the image file with the Abila shapefile (in WGS84 coordinates) to obtain a geo-referenced tourist map (MC2-tourist.tif).</p>
 <h2 id="visual-analysis">5. Visual analysis</h2>
 <h3 id="using-just-the-credit-and-loyalty-card-data-identify-the-most-popular-locations-and-when-they-are-popular.-what-anomalies-do-you-see-what-corrections-would-you-recommend-to-correct-these-anomalies">5.1 Using just the credit and loyalty card data, identify the most popular locations, and when they are popular. What anomalies do you see? What corrections would you recommend to correct these anomalies?</h3>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <h3 id="add-the-vehicle-data-to-your-analysis-of-the-credit-and-loyalty-card-data.-how-does-your-assessment-of-the-anomalies-in-question-1-change-based-on-this-new-data-what-discrepancies-between-vehicle-credit-and-loyalty-card-data-do-you-find">5.2 Add the vehicle data to your analysis of the credit and loyalty card data. How does your assessment of the anomalies in question 1 change based on this new data? What discrepancies between vehicle, credit, and loyalty card data do you find?</h3>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <h3 id="can-you-infer-the-owners-of-each-credit-card-and-loyalty-card-what-is-your-evidence-where-are-there-uncertainties-in-your-method-where-are-there-uncertainties-in-the-data">5.3 Can you infer the owners of each credit card and loyalty card? What is your evidence? Where are there uncertainties in your method? Where are there uncertainties in the data?</h3>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <h3 id="given-the-data-sources-provided-identify-potential-informal-or-unofficial-relationships-among-gastech-personnel.-provide-evidence-for-these-relationships.">5.4 Given the data sources provided, identify potential informal or unofficial relationships among GASTech personnel. Provide evidence for these relationships.</h3>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <h3 id="do-you-see-evidence-of-suspicious-activity-identify-1--10-locations-where-you-believe-the-suspicious-activity-is-occurring-and-why.">5.5 Do you see evidence of suspicious activity? Identify 1- 10 locations where you believe the suspicious activity is occurring, and why.</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
