@@ -507,7 +507,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-Based on the thicker routes taken by Ingrid Barranco, she appears to visit the Desafio Golf Course quite often throughout the two weeks.
+Ingrid Barranco, SVP/CFO of GASTech, visits the Desafio Golf Course frequently.
 
 **Route by Car ID 5 (assigned to Isak Baza)**
 
@@ -590,6 +590,8 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_shape(gps_path_selected) +
   tm_lines()
 ```
+
+Ada Campo-Corrente, SVP/CIO of GASTech, visits the Desafio Golf Course frequently.
 
 **Route by Car ID 11 (assigned to Axel Calzas)**
 
@@ -948,104 +950,91 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 
 Willem Vasco-Pais often visits the Desafio Golf Course and Chostus Hotel. 
 
-```{r}
-
-
-```
-
 ### 5.3 Can you infer the owners of each credit card and loyalty card? What is your evidence? Where are there uncertainties in your method? Where are there uncertainties in the data?
 
-We may infer the owners of each credit card and loyalty card by plotting a network graph 
+We may infer the owners of each credit card and loyalty card by plotting a bipartite graphs between locations (node) and credit card ID (node) or loyalty card number (node). We would have to assume that all card transactions are by the rightful owner and not stolen. The edges would be the number of visits to the location.
 
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
+We may also plot the GPS route of the assigned cars to match them with instances where a transaction takes place at the same location where the car is stationary. We would have to assume that employees always drive from one place to another and that all transactions are charged to the credit card and not paid in cash. 
 
 ### 5.4 Given the data sources provided, identify potential informal or unofficial relationships among GASTech personnel. Provide evidence for these relationships.
 
+**Meetings at Chostus Hotel**
 
-```{r}
+The following employees from different GAStech departments often visit the Chostus Hotel and drive a similar route to and from the Hotel:
 
+* Lidelse Dedos
+* Loreto Bodrogi
+* Isia Vann
+* Sven Flecha
+* Birgitta Frente
 
-```
+![Lidelse Dedos](image/carID14.png){width=50%}
 
+![Loreto Bodrogi](image/carID15.png){width=50%}
 
-```{r}
+![Isia Vann](image/carID16.png){width=50%}
 
+![Sven Flecha](image/carID17.png){width=50%}
 
-```
+![Birgitta Frente](image/carID18.png){width=50%}
 
+**Similar routes Chostus Hotel - Ahaggo Museum**
 
-```{r}
+The following employees from different GAStech departments often drive from Chostus Hotel and park or u-turn at the corner of the road near Ahaggo Museum.
 
+![Felix Resumir](image/carID30.png){width=50%}
 
-```
+![Brand Tempestad](image/carID33.png){width=50%}
 
+![Edvard Vann](image/carID34.png){width=50%}
 
-```{r}
+**Meetings off Pilau Street and Chostus Hotel**
 
+The following employees often visit the Chostus Hotel and also stops or makes a u-turn at odd places off the main road, especially near to Pilau Street:
 
-```
+* Inga Ferro
+* Loreto Bodrogi
+* Hennie Osvaldo
+* Minke Mies
 
+They are all from the Security department of GAStech.
 
-```{r}
+![Inga Ferro](image/carID13.png){width=50%}
 
+![Loreto Bodrogi](image/carID15.png){width=50%}
 
-```
+![Hennie Osvaldo](image/carID21.png){width=50%}
+
+![Minke Mies](image/carID24.png){width=50%}
+
+**Golfing**
+
+The C-suite executives often visit the Desafio Golf Course.
+
+![Ingrid Barranco](image/carID4.png){width=50%}
+
+![Ada Campo-Corrente](image/carID10.png){width=50%}
+
+![Sten Sanjorge Jr.](image/carID31.png){width=50%}
+
+![Orhan Strum](image/carID32.png){width=50%}
+
+![Willem Vasco-Pais](image/carID35.png){width=50%}
 
 ### 5.5 Do you see evidence of suspicious activity? Identify 1- 10 locations where you believe the suspicious activity is occurring, and why.
 
+**Location 1 - Chostus Hotel**
 
-```{r}
+Refer to visual suspicion in Section 5.4. The employees' title and departments are not typically expected to hold work meetings at a hotel.
 
+**Location 2 - Corner of Ahaggo Museum**
 
-```
+Refer to visual suspicion in Section 5.4. It is out of the ordinary to visit a museum so often.
 
+**Location 3 - Off Pilau Street**
 
-```{r}
+Refer to visual suspicion in Section 5.4. It is odd that employees from the Security department meets outside the office regularly.
 
+**Location 4 - Daily Dealz**
 
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
+Refer to visual suspicion in Section 5.1. During the two-week period of transactions, Daily Dealz recorded only 1 transaction at 6am, which is ironic for a place whose name suggests good deals on a daily basis.
