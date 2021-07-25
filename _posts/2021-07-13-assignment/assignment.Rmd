@@ -71,9 +71,9 @@ We browsed the [R Graph Gallery](https://www.r-graph-gallery.com/index.html) for
 The following code chunk installs and launches the R packages we will use for data visualisation and analysis in this assignment.
 
 ```{r}
-packages = c('DT', 'ggiraph', 'plotly', 'tidyverse',
-             'raster', 'sf', 'clock', 'tmap', 'mapview',
-             'tidygraph', 'ggraph', 'visNetwork',
+packages = c('DT', 'ggiraph', 'ggplot2', 'plotly', 
+             'tidyverse', 'raster', 'sf', 'clock', 'tmap',
+             'mapview', 'tidygraph', 'ggraph', 'visNetwork',
              'igraph', 'lubridate', 'clock')
               
 for(p in packages){
@@ -217,23 +217,158 @@ As the Abila, Kronos, tourist map image file provided (MC2-tourist.jpg) does not
 
 ### 5.1 Using just the credit and loyalty card data, identify the most popular locations, and when they are popular. What anomalies do you see? What corrections would you recommend to correct these anomalies?
 
-```{r}
+When we first tried to run the code for the visualisation, we were prompted the following error message:
 
+> invalid input 'Katerina’s Café' in 'utf8towcs'
+
+Therefore, we ran the followings codes in the "credit_card" and "loyalty_card" datasets to resolve the accent characters.
+
+```{r}
+credit_card <- credit_card %>%
+  mutate(location = ifelse(str_detect(location, "Katerina"), "Katerina's Cafe", location))
+
+loyalty_card <- loyalty_card %>%
+  mutate(location = ifelse(str_detect(location, "Katerina"), "Katerina's Cafe", location))
+```
+
+**Most popular locations based on credit card data**
+
+```{r}
+credit_card %>%
+  mutate(location = fct_rev(fct_infreq(location))) %>%
+  ggplot(aes(x = location)) +
+  geom_bar(colour = "grey", fill = "dark blue") +
+  xlab("Location") +
+  ylab("No. of credit card transactions") +
+  theme(axis.text.x = element_text(vjust = 0.5, hjust=1)) +
+  coord_flip()
+```
+
+Based purely on the number of credit card transactions at each location over the course of two weeks, the top five popular locations were: 
+
+1. Katerina's Cafe
+2. Hippokampos
+3. Guy's Gyros
+4. Brew've Been Served
+5. Hallowed Grounds
+
+**Most popular locations based on loyalty card data**
+
+```{r}
+loyalty_card %>%
+  mutate(location = fct_rev(fct_infreq(location))) %>%
+  ggplot(aes(x = location)) +
+  geom_bar(colour = "grey", fill = "dark green") +
+  xlab("Location") +
+  ylab("No. of loyalty card transactions") +
+  theme(axis.text.x = element_text(vjust = 0.5, hjust=1)) +
+  coord_flip()
+```
+
+Based purely on the number of loyalty card transactions at each location over the course of two weeks, the top five popular locations were: 
+
+1. Katerina's Cafe
+2. Hippokampos
+3. Guy's Gyros
+4. Brew've Been Served
+5. Ouzeri Elian
+
+**Most popular hours of the day based on credit card data**
+
+```{r}
+cc_hour_of_day <- credit_card %>%
+  count(location, hour_of_day) %>%
+  mutate(location = as.factor(location),
+         hour_of_day = as.factor(hour_of_day),
+         text = paste0("Location: ", location, "\n", 
+                       "Hour of the day: ", hour_of_day, "\n", 
+                       "Count: ", n))
+
+hMap_hour_of_day <- ggplot(cc_hour_of_day, aes(hour_of_day,
+                                             location,
+                                             fill = n,
+                                             text = text)) +
+  geom_tile() +
+  scale_fill_viridis(discrete = FALSE) +
+  scale_y_discrete() +
+  scale_x_discrete() +
+    xlab("Hour of the day") +
+  theme(panel.grid.major = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 5),
+        axis.title.y = element_blank())
+
+ggplotly(hMap_hour_of_day, tooltip = "text")
 
 ```
 
+Brew've Been Served is a highly popular morning coffee place, as seen from the high number of transactions at between 7am and 9am. Dining at Katerina's Cafe for dinner appear to be very popular option, based on the high number of transactions between 8pm to 9pm.
+
+During the two-week period of transactions, Daily Dealz recorded only 1 transaction at 6am, which is ironic for a place that suggests good deals on a daily basis. This piques our interest and we hope further investigation can reveal more information.
+
+**Most popular days of the week based on credit card data**
 
 ```{r}
+cc_day_of_week <- credit_card %>%
+  count(location, day_of_week) %>%
+  mutate(location = as.factor(location),
+         day_of_week = as.factor(day_of_week),
+         text = paste0("Location: ", location, "\n", 
+                       "Day: ", day_of_week, "\n", 
+                       "Count: ", n))
 
+hMap_cc_day <- ggplot(cc_day_of_week, aes(day_of_week,
+                                             location,
+                                             fill = n,
+                                             text = text)) +
+  geom_tile() +
+  scale_fill_viridis(discrete = FALSE) +
+  scale_y_discrete() +
+  scale_x_discrete() +
+    xlab("Day of the week") +
+  theme(panel.grid.major = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.x = element_text(size = 5),
+        axis.text.y = element_text(size = 5),
+        axis.title.y = element_blank())
 
+ggplotly(hMap_cc_day, tooltip = "text")
 ```
 
+**Most popular days of the week based on loyalty card data**
 
 ```{r}
+lc_day_of_week <- loyalty_card %>%
+  count(location, day_of_week) %>%
+  mutate(location = as.factor(location),
+         day_of_week = as.factor(day_of_week),
+         text = paste0("Location: ", location, "\n", 
+                       "Day: ", day_of_week, "\n", 
+                       "Count: ", n))
 
+hMap_lc_day <- ggplot(cc_day_of_week, aes(day_of_week,
+                                             location,
+                                             fill = n,
+                                             text = text)) +
+  geom_tile() +
+  scale_fill_viridis(discrete = FALSE) +
+  scale_y_discrete() +
+  scale_x_discrete() +
+    xlab("Day of the week") +
+  theme(panel.grid.major = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.x = element_text(size = 5),
+        axis.text.y = element_text(size = 5),
+        axis.title.y = element_blank())
 
+ggplotly(hMap_lc_day, tooltip = "text")
 ```
 
+Credit card transactions and loyalty card transactions are aligned with each other throughout the week for both Katerina's Cafe and Brew've Been Served.
 
 ```{r}
 
