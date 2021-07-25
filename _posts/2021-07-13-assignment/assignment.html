@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["assignment_files/anchor/anchor.min.js","assignment_files/bowser/bowser.min.js","assignment_files/distill/template.v2.js","assignment_files/header-attrs/header-attrs.js","assignment_files/jquery/jquery.min.js","assignment_files/popper/popper.min.js","assignment_files/tippy/tippy-bundle.umd.min.js","assignment_files/tippy/tippy-light-border.css","assignment_files/tippy/tippy.css","assignment_files/tippy/tippy.umd.min.js","assignment_files/webcomponents/webcomponents.js","data/car-assignments.csv","data/cc_data.csv","data/Geospatial/Abila.dbf","data/Geospatial/Abila.kml","data/Geospatial/Abila.prj","data/Geospatial/Abila.sbn","data/Geospatial/Abila.sbx","data/Geospatial/Abila.shp","data/Geospatial/Abila.shx","data/Geospatial/Kronos Island.kmz","data/Geospatial/Kronos_Island.dbf","data/Geospatial/Kronos_Island.prj","data/Geospatial/Kronos_Island.sbn","data/Geospatial/Kronos_Island.sbx","data/Geospatial/Kronos_Island.shp","data/Geospatial/Kronos_Island.shx","data/gps.csv","data/loyalty_data.csv"]}
+  {"type":"character","attributes":{},"value":["assignment_files/anchor/anchor.min.js","assignment_files/bowser/bowser.min.js","assignment_files/distill/template.v2.js","assignment_files/header-attrs/header-attrs.js","assignment_files/jquery/jquery.min.js","assignment_files/popper/popper.min.js","assignment_files/tippy/tippy-bundle.umd.min.js","assignment_files/tippy/tippy-light-border.css","assignment_files/tippy/tippy.css","assignment_files/tippy/tippy.umd.min.js","assignment_files/webcomponents/webcomponents.js","data/car-assignments.csv","data/cc_data.csv","data/Geospatial/Abila.dbf","data/Geospatial/Abila.kml","data/Geospatial/Abila.prj","data/Geospatial/Abila.sbn","data/Geospatial/Abila.sbx","data/Geospatial/Abila.shp","data/Geospatial/Abila.shx","data/Geospatial/Kronos Island.kmz","data/Geospatial/Kronos_Island.dbf","data/Geospatial/Kronos_Island.prj","data/Geospatial/Kronos_Island.sbn","data/Geospatial/Kronos_Island.sbx","data/Geospatial/Kronos_Island.shp","data/Geospatial/Kronos_Island.shx","data/Geospatial/MC2-tourist.tif","data/Geospatial/MC2-tourist.tif.points","data/gps.csv","data/loyalty_data.csv","data/MC2-tourist.jpg","data/MC2_data_readme.docx"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1479,19 +1479,40 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="introduction">1. Introduction</h2>
+<p><a href="https://vast-challenge.github.io/2021/index.html"><strong>VAST Challenge 2021 - The Kronos Incident (Mini-Challenge 2)</strong></a></p>
+<p>Between 20-21 Jan 2014, on the island country of Kronos, several employees of GAStech, a Tethys gas multinational, go missing.</p>
+<p>To get to the bottom of this mystery, we will use visual analytic techniques to analyze data provided by GAStech to assist with law enforcement’s investigation and hopefully find the missing persons and bring them home safely. The data provided by GAStech covering the two weeks prior to the GAStech employees’ disappearance are as follows:</p>
+<ul>
+<li>GAStech employee’s credit card transactions and Kronos Kares loyalty card data, and</li>
+<li>Movement and tracking data from GAStech’s company cars which have GPS tracking.</li>
+</ul>
 <h2 id="objective">2. Objective</h2>
+<p>The objective of this project is to use visual analytic techniques to surface and identify anomalies and suspicious behavior.</p>
 <h2 id="literature-review">3. Literature review</h2>
 <h3 id="previous-work">3.1 Previous work</h3>
+<p>Since VAST Challenge 2021 is a redux of <a href="http://visualdata.wustl.edu/varepository/VAST%20Challenge%202014/challenges/MC2%20-%20Patterns%20of%20Life%20Analysis/"><strong>VAST Challenge 2014</strong></a> with some variation, modified data and new questions, we reviewed past submissions for Mini-Challenge 2 for some inspiration on tackling this year’s challenge.</p>
+<p>We were particularly drawn to the following submissions:</p>
+<ul>
+<li><p>The <a href="http://visualdata.wustl.edu/varepository/VAST%20Challenge%202014/challenges/MC2%20-%20Patterns%20of%20Life%20Analysis/entries/Virginia%20Tech"><strong>DAC-MC2 team from Virginia Tech</strong></a> used a methodology called Points of Interest (<strong>“POI”</strong>) to identify POIs such as people’s homes, their work places, and recreational locations (e.g. restaurants, cafes). A location is considered a POI if the time spent at a location is more than 5 minutes and the location has a diameter of less than 50 meters. They then graphed the distribution of POI over time for various days (weekdays and weekends) and locations (i.e. home, work, recreation).</p></li>
+<li><p>Similarly, the <a href="http://visualdata.wustl.edu/varepository/VAST%20Challenge%202014/challenges/MC2%20-%20Patterns%20of%20Life%20Analysis/entries/Middlesex%20University"><strong>MiddlesexMASS-Attfield-MC2 team from Middlesex University</strong></a> used the Patterns of Life (<strong>“POL”</strong>) suite to create a map showing where each person was at any given time and for how long. They also overlayed credit card and loyalty transactions over their map.</p></li>
+<li><p>To better understand the credit card and loyalty card data, the <a href="http://visualdata.wustl.edu/varepository/VAST%20Challenge%202014/challenges/MC2%20-%20Patterns%20of%20Life%20Analysis/entries/International%20Institute%20of%20Information%20Technology%20Hyderabad"><strong>IIITH-YASHASWI-MC2 team from the International Institute of Information Technology Hyderabad</strong></a> visualized the distributions of credit card transactions by date and by person and employment title / employee title. This analysis enabled them to better understand typical patterns and identify transactions that deviated and stood out.</p></li>
+<li><p>The <a href="http://visualdata.wustl.edu/varepository/VAST%20Challenge%202014/challenges/MC2%20-%20Patterns%20of%20Life%20Analysis/entries/Purdue%20University"><strong>Purdue-Guo-MC2 team from Purdue University</strong></a> created a <strong>Social Relationship Matrix</strong>, which involves plotting a heatmap of the number of times GAStech employees meet each other over the course of the two weeks. The assumption is that the more frequent people meet, the closer relationship they have between them.</p></li>
+</ul>
+<p>Eager to reproduce and improve the visualisations, we looked further into the dataset provided for the 2014 Challenge. While the datasets provided in 2014 were generally similar, we noted a significant difference in the 2021 datasets: Both the credit card transactions data and loyalty card transactions data do not reflect the name of the card holders.</p>
+<p>This presents a further challenge for us to reproduce the inspiring visualisations above (especially the Social Relationship Matrix) and we have to consider alternatives or adaptations in some cases.</p>
 <h3 id="r-graph-gallery">3.2 R Graph Gallery</h3>
-<p>We</p>
+<p>We browsed the <a href="https://www.r-graph-gallery.com/index.html">R Graph Gallery</a> for ideas on various types of charts and graphs that can be visualised using relevant R packages.</p>
 <h3 id="r-packages">3.3 R packages</h3>
 <h2 id="data-preparation">4. Data preparation</h2>
+<h3 id="data-cleaning">4.1 Data cleaning</h3>
+<h3 id="geo-referencing">4.2 Geo-referencing</h3>
+<p>As the Abila, Kronos, tourist map image file provided (MC2-tourist.jpg) does not have coordinates projection, we need to perform geo-referencing. We used a geographic information system software, <a href="https://www.qgis.org/en/site/index.html">QGIS</a>, to geo-reference the image file with the Abila shapefile (in WGS84 coordinates) to obtain a geo-referenced tourist map (MC2-tourist.tif).</p>
 <h2 id="visual-analysis">5. Visual analysis</h2>
-<h3 id="section">5.1</h3>
-<h3 id="section-1">5.2</h3>
-<h3 id="section-2">5.3</h3>
-<h3 id="section-3">5.4</h3>
-<h3 id="section-4">5.5</h3>
+<h3 id="using-just-the-credit-and-loyalty-card-data-identify-the-most-popular-locations-and-when-they-are-popular.-what-anomalies-do-you-see-what-corrections-would-you-recommend-to-correct-these-anomalies">5.1 Using just the credit and loyalty card data, identify the most popular locations, and when they are popular. What anomalies do you see? What corrections would you recommend to correct these anomalies?</h3>
+<h3 id="add-the-vehicle-data-to-your-analysis-of-the-credit-and-loyalty-card-data.-how-does-your-assessment-of-the-anomalies-in-question-1-change-based-on-this-new-data-what-discrepancies-between-vehicle-credit-and-loyalty-card-data-do-you-find">5.2 Add the vehicle data to your analysis of the credit and loyalty card data. How does your assessment of the anomalies in question 1 change based on this new data? What discrepancies between vehicle, credit, and loyalty card data do you find?</h3>
+<h3 id="can-you-infer-the-owners-of-each-credit-card-and-loyalty-card-what-is-your-evidence-where-are-there-uncertainties-in-your-method-where-are-there-uncertainties-in-the-data">5.3 Can you infer the owners of each credit card and loyalty card? What is your evidence? Where are there uncertainties in your method? Where are there uncertainties in the data?</h3>
+<h3 id="given-the-data-sources-provided-identify-potential-informal-or-unofficial-relationships-among-gastech-personnel.-provide-evidence-for-these-relationships.">5.4 Given the data sources provided, identify potential informal or unofficial relationships among GASTech personnel. Provide evidence for these relationships.</h3>
+<h3 id="do-you-see-evidence-of-suspicious-activity-identify-1--10-locations-where-you-believe-the-suspicious-activity-is-occurring-and-why.">5.5 Do you see evidence of suspicious activity? Identify 1- 10 locations where you believe the suspicious activity is occurring, and why.</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
