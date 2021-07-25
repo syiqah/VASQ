@@ -457,7 +457,7 @@ We observed that there is no car with orphan lines since there is no p = 1 in th
 ```{r}
 gps_path_selected <- gps_path %>%
   filter(CarID == 1) # Replace the CarID
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3,
        alpha = NA,
@@ -473,7 +473,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 2)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -486,7 +486,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 3)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -499,7 +499,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 4)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -507,12 +507,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
+Based on the thicker routes taken by Ingrid Barranco, she appears to visit the Desafio Golf Course quite often throughout the two weeks.
+
 **Route by Car ID 5 (assigned to Isak Baza)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 5)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -525,7 +527,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 6)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -538,7 +540,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 7)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -546,12 +548,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
+The "steps-like" route taken Elsa Orilla suggests that she avoids taking the main roads as often as the smaller neighbourhood roads. She frequently visits the Chostus Hotel.
+
 **Route by Car ID 8 (assigned to Lucas Alcazar)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 8)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -564,7 +568,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 9)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -572,12 +576,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
+The GPS tracker on Car ID 9 was probably malfunctioning or tampered with, based on the stray lines on the map.
+
 **Route by Car ID 10 (assigned to Ada Campo-Corrente)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 10)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -590,7 +596,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 11)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -603,7 +609,7 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 12)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -616,33 +622,37 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 13)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
   tm_shape(gps_path_selected) +
   tm_lines()
 ```
+
+Inga Ferro appears to take many alternative routes on a daily basis throughout the two weeks. We noticed that the car often stops or makes a u-turn at odd places off the main road, especially near to Pilau Street.
 
 **Route by Car ID 14 (assigned to Lidelse Dedos)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 14)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
   tm_shape(gps_path_selected) +
   tm_lines()
 ```
+
+Lidelse Dedos often visits the Chostus Hotel during the two weeks.
 
 **Route by Car ID 15 (assigned to Loreto Bodrogi)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 15)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -650,12 +660,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 16 (assigned to )**
+Loreto Bodrogi often visits the Chostus Hotel during the two weeks and drives a similar route to and from the Hotel as Lidelse Dedos. The car often stops or makes a u-turn at odd places off the main road, especially near to Pilau Street, similar to Inga Ferro.
+
+**Route by Car ID 16 (assigned to Isia Vann)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 16)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -663,12 +675,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 17 (assigned to )**
+Isia Vann often visits the Chostus Hotel during the two weeks and drives a similar route to and from the Hotel as Lidelse Dedos and Loreto Bodrogi.
+
+**Route by Car ID 17 (assigned to Sven Flecha)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 17)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -676,12 +690,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 18 (assigned to )**
+Sven Flecha often visits the Chostus Hotel during the two weeks and drives a similar route to and from the Hotel as Lidelse Dedos, Loreto Bodrogi and Isia Vann.
+
+**Route by Car ID 18 (assigned to Birgitta Frente)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 18)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -689,12 +705,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 19 (assigned to )**
+Birgitta Frente often visits the Chostus Hotel during the two weeks and drives a similar route to and from the Hotel as Lidelse Dedos, Loreto Bodrogi, Isia Vann and Sven Flecha.
+
+**Route by Car ID 19 (assigned to Vira Frente)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 19)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -702,12 +720,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 20 (assigned to )**
+Vira Frente often goes for long drives along Rist Way, to and fro the Chostus Hotel.
+
+**Route by Car ID 20 (assigned to Stenig Fusil)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 20)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -715,12 +735,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 21 (assigned to )**
+**Route by Car ID 21 (assigned to Hennie Osvaldo)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 21)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -728,12 +748,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 22 (assigned to )**
+Hennie Osvaldo often visits the Chostus Hotel during the two weeks. The car often stops or makes a u-turn at odd places off the main road, especially near to Pilau Street, similar to Inga Ferro and Loreto Bodrogi.
+
+**Route by Car ID 22 (assigned to Adra Nubarron)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 22)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -741,12 +763,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 23 (assigned to )**
+**Route by Car ID 23 (assigned to Varja Lagos)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 23)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -754,12 +776,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 24 (assigned to )**
+**Route by Car ID 24 (assigned to Minke Mies)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 24)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -767,12 +789,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 25 (assigned to )**
+Minke Mies often visits the Chostus Hotel during the two weeks. The car often stops or makes a u-turn at odd places off the main road, especially near to Pilau Street, similar to Inga Ferro, Loreto Bodrogi and Hennie Osvaldo.
+
+**Route by Car ID 25 (assigned to Kanon Herrero)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 25)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -780,12 +804,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 26 (assigned to )**
+**Route by Car ID 26 (assigned to Marin Onda)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 26)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -793,12 +817,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 27 (assigned to )**
+**Route by Car ID 27 (assigned to Kare Orilla)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 27)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -806,12 +830,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 28 (assigned to )**
+**Route by Car ID 28 (assigned to Isande Borrasca)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 28)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -819,12 +843,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 29 (assigned to )**
+The GPS tracker on Car ID 28 was probably malfunctioning or tampered with, based on the odd lines on the map.
+
+**Route by Car ID 29 (assigned to Bertrand Ovan)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 29)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -832,12 +858,12 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 30 (assigned to )**
+**Route by Car ID 30 (assigned to Felix Resumir)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 30)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -845,12 +871,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 31 (assigned to )**
+Felix Resumir often visits the Chostus Hotel and Ahaggo Museum during the two weeks.
+
+**Route by Car ID 31 (assigned to Sten Sanjorge Jr.)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 31)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -858,12 +886,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 32 (assigned to )**
+Sten Sanjorge Jr., the President/CEO of GAStech, often visits the Desafio Golf Course and Chostus Hotel. 
+
+**Route by Car ID 32 (assigned to Orhan Strum)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 32)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -871,12 +901,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 33 (assigned to )**
+Orhan Strum, the SVP/COO of GAStech, often visits the Desafio Golf Course.
+
+**Route by Car ID 33 (assigned to Brand Tempestad)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 33)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -884,12 +916,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 34 (assigned to )**
+Brand Tempestad often visits the Chostus Hotel and Ahaggo Museum during the two weeks, similar to Felix Resumir.
+
+**Route by Car ID 34 (assigned to Edvard Vann)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 34)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -897,12 +931,14 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-**Route by Car ID 35 (assigned to )**
+Edvard Vann often visits the Chostus Hotel and Ahaggo Museum during the two weeks, similar to Felix Resumir and Brand Tempestad.
+
+**Route by Car ID 35 (assigned to Willem Vasco-Pais)**
 
 ```{r echo=FALSE}
 gps_path_selected <- gps_path %>%
   filter(CarID == 35)
-tmap_mode("view")
+tmap_mode("plot")
 tm_shape(bgmap) +
 tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
        interpolate = TRUE, max.value = 255) +
@@ -910,22 +946,16 @@ tm_rgb(bgmap, r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   tm_lines()
 ```
 
-```{r}
-
-
-```
+Willem Vasco-Pais often visits the Desafio Golf Course and Chostus Hotel. 
 
 ```{r}
 
 
 ```
 
-
-```{r}
-
-
-```
 ### 5.3 Can you infer the owners of each credit card and loyalty card? What is your evidence? Where are there uncertainties in your method? Where are there uncertainties in the data?
+
+We may infer the owners of each credit card and loyalty card by plotting a network graph 
 
 ```{r}
 
